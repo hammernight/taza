@@ -1,0 +1,13 @@
+require 'spec_helper'
+require 'sequel'
+
+
+<%= @site_name.upcase %> = Sequel.connect(
+        :adapter => 'ado',
+        :host => 'host',
+        :database => 'name',
+        :user => 'user',
+        :password => 'password'
+)
+
+Sequel::Model.db = MODEL_DB = <%= @site_name.upcase %>

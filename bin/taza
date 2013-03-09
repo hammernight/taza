@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 
 require 'rubygems'
-require 'rubigen'
+require 'thor'
 
 if %w(-v --version).include? ARGV.first
   require 'taza'
@@ -9,9 +9,20 @@ if %w(-v --version).include? ARGV.first
   exit(0)
 end
 
-require 'rubigen/scripts/generate'
-source = RubiGen::PathSource.new(:application, 
-  File.join(File.dirname(__FILE__), "../lib/app_generators"))
-RubiGen::Base.reset_sources
-RubiGen::Base.append_sources source
-RubiGen::Scripts::Generate.new.run(ARGV, :generator => 'taza')
+
+Dir[File.expand_path("../..", __FILE__) + "/generators/*/*.rb"].each do |generator|
+  require generator
+end
+
+class Generate < Thor
+  register(New, "new", "new NAME DRIVER BROWSER", "Generates a new taza project, and configures the driver.")
+  register(Site, "site", "site NAME URL", "Generates a new site.")
+  register(Page, "page", "page NAME SITE_NAME SECTION", "Generates a new page and associated spec. SITE_NAME must exist.")
+  register(Partial, "partial", "partial NAME SITE_NAME", "Generates a partial page for the site.")
+  register(Flow, "flow", "flow NAME SITE_NAME", "Generates a flow for the site.")
+  register(IsolationSpec, "isolation", "functional NAME SITE_NAME SECTION", "Generates a functional spec.")
+  register(IntegrationSpec, "integration", "integration NAME SITES", "Generates a integration spec.")
+  register(Models, "model", "model NAME SITE TABLE_NAME", "Generates a table model")
+end
+
+Generate.start

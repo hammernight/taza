@@ -1,0 +1,11 @@
+require 'sequel'
+require_relative 'env'
+  <% if @table_name.nil? %>
+class <%= @model_name.camelize %> < Sequel::Model 
+
+end
+  <% else %>
+class <%= @model_name.camelize %> < Sequel::Model(:<%= @table_name %>)
+
+end
+  <% end %>

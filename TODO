@@ -20,3 +20,11 @@ taza
  - clean all the config tests
  - add test/spec support for generators
  - add test/spec support for fixtures
+
+
+ -remove dependency on generator_spec. Write own helpers for generator tests.
+ -Determine the best way to add watir gem to gemfile.
+ -Add sequel to gemfile during model generation.
+ -Configure Firefox Parameters
+ -Configure Chrome Switches
+

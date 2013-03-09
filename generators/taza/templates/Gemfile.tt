@@ -3,3 +3,6 @@ source :rubygems
 gem 'taza', '<%= Taza::VERSION %>'
 
 #Add any gems you might need to use in your project here.
+
+gem 'watir', "~> 3.0.0"
+gem 'watir-webdriver'

@@ -1,3 +1,15 @@
+=== 0.9.2
+* Changed Generators to Thor
+* Changed generator structure, all generators are in the generator folder (Will Update the wiki)
+** Added options to the generators so you can set configuration options.
+** Added a Model Generator. This will generate a model for Sequel (http://sequel.rubyforge.org/) ORM.
+** Added an Individual Spec generator. This will generate an isolation or integration spec.
+* Dependencies
+** Removed Driver Dependencies. User will have to specify driver gems in the projects gemfile.
+** Bumped up the rake version to 10
+** Bumped up the RSpec Version to 2.13
+
+
 === 0.9.1.2
 Experimental pure Webdriver support
 Fix app generator (thanks @certonaqa)
