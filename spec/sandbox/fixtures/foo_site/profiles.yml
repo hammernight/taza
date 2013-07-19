@@ -1,0 +1,7 @@
+batman:
+  login: batman@dc.com
+  pass: caveman
+
+robin:
+  login: robin@dc.com
+  pass: metoo

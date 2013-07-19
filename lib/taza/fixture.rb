@@ -27,9 +27,15 @@ module Taza
       Dir.glob(File.join(dir,'*.yml')) do |file|
         templatized_fixture=ERB.new(File.read(file))
         entitized_fixture = {}
-        YAML.load(templatized_fixture.result()).each do |key, value|
-          entitized_fixture[key] = value.convert_hash_keys_to_methods(self)
+
+        begin
+          YAML.load(templatized_fixture.result()).each do |key, value|
+            entitized_fixture[key] = value.convert_hash_keys_to_methods(self)
+          end
+        rescue => e
+          warn "Could not load fixture file: #{file}\n\t #{e.message}"
         end
+
         @fixtures[File.basename(file,'.yml').to_sym] = entitized_fixture
       end
     end
