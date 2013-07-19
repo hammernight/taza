@@ -1,4 +1,6 @@
 require 'spec_helper'
+require 'watir-webdriver'
+require 'selenium-webdriver'
 
 describe Taza::Browser do
 
