@@ -14,7 +14,7 @@ describe Taza::PartialGenerator do
 
       it 'a navigation.rb' do
         expect(output).to include('lib/sites/foo_site/pages/partials/navigation.rb')
-        expect(File.exists?('lib/sites/foo_site/pages/partials/navigation.rb')).to be_true
+        expect(File.exists?('lib/sites/foo_site/pages/partials/navigation.rb')).to be true
       end
 
       it 'message if site does not exist' do
