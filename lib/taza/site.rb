@@ -15,7 +15,7 @@ module Taza
   #
   #   end
   class Site
-    @@before_browser_closes = Proc.new() {}
+    @@before_browser_closes = Proc.new {}
     @@donot_close_browser = false
     # Use this to do something with the browser before it closes, but note that it is a class method which
     # means that this will get called for any instance of a site.
