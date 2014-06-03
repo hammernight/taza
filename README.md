@@ -1,5 +1,5 @@
 #taza
-[![Build Status](https://secure.travis-ci.org/hammernight/taza.png)](http://travis-ci.org/hammernight/taza)
+[![Build Status](https://travis-ci.org/hammernight/taza.svg?branch=master)](http://travis-ci.org/hammernight/taza)
 [![Code Climate](https://codeclimate.com/github/hammernight/taza.png)](https://codeclimate.com/github/hammernight/taza)
 
 * https://github.com/hammernight/taza
