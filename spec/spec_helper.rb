@@ -68,7 +68,7 @@ module Helpers
     end
 
     def stub_browser
-      stub_browser = stub()
+      stub_browser = stub
       stub_browser.stubs(:goto)
       stub_browser.stubs(:close)
       ::Taza::Browser.stubs(:create).returns(stub_browser)

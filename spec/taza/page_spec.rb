@@ -95,7 +95,7 @@ describe Taza::Page do
   it "should not call element block if filters fail" do
     page = FilterAnElement.new
     lambda { page.false_item }.should raise_error
-    page.called_element_method.should_not be_true
+    page.called_element_method.should_not be true
   end
 
   it "should not allow more than one element descriptor with the same element name" do

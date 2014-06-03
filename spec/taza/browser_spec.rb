@@ -13,11 +13,11 @@ describe Taza::Browser do
   end
 
   it "should raise unknown browser error for unsupported watir browsers" do
-    lambda { Taza::Browser.create(:browser => :foo_browser_9000,:driver => :watir) }.should raise_error(StandardError)
+    expect(lambda { Taza::Browser.create(:browser => :foo_browser_9000,:driver => :watir) }).to raise_error(StandardError)
   end
 
   it "should use params browser type when creating selenium" do
-    pending "Travis cant load selenium. :("
+    skip "Travis cant load selenium. :("
     browser_type = :opera
     Selenium::SeleniumDriver.expects(:new).with(anything,anything,'*opera',anything)
     Taza::Browser.create(:browser => browser_type, :driver => :selenium)
@@ -39,7 +39,7 @@ describe Taza::Browser do
 
   it "should be able to create a selenium instance" do
     browser = Taza::Browser.create(:browser => :firefox, :driver => :selenium)
-    browser.should be_a_kind_of(Selenium::SeleniumDriver)
+    expect(browser).to be_a_kind_of Selenium::SeleniumDriver
   end
 
   it "should use environment settings for server port and ip" do
@@ -61,7 +61,7 @@ describe Taza::Browser do
 
   it "should be able to give you the class of browser" do
     Taza::Browser.expects(:watir_safari).returns(Object)
-    Taza::Browser.browser_class(:browser => :safari, :driver => :watir).should eql(Object)
+    expect(Taza::Browser.browser_class(:browser => :safari, :driver => :watir)).to eql Object
   end
 
 end
