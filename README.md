@@ -1,6 +1,9 @@
 #taza
-[![Build Status](https://secure.travis-ci.org/hammernight/taza.png)](http://travis-ci.org/hammernight/taza)
-[![Code Climate](https://codeclimate.com/github/hammernight/taza.png)](https://codeclimate.com/github/hammernight/taza)
+## Build Status
+###### Master [![Build Status](https://secure.travis-ci.org/hammernight/taza.png)](https://travis-ci.org/hammernight/taza.svg?branch=master) [![Code Climate](https://codeclimate.com/github/hammernight/taza.png)](https://codeclimate.com/github/hammernight/taza)
+
+###### Branches [![Build Status](https://secure.travis-ci.org/hammernight/taza.png)](http://travis-ci.org/hammernight/taza)
+
 
 * https://github.com/hammernight/taza
 * Wiki: http://github.com/scudco/taza/wikis
