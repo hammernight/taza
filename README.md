@@ -1,8 +1,10 @@
 #taza
 ## Build Status
-###### Master [![Build Status](https://secure.travis-ci.org/hammernight/taza.png)](https://travis-ci.org/hammernight/taza.svg?branch=master) [![Code Climate](https://codeclimate.com/github/hammernight/taza.png)](https://codeclimate.com/github/hammernight/taza)
+###### Master 
+[![Build Status](https://travis-ci.org/hammernight/taza.svg?branch=master)](https://travis-ci.org/hammernight/taza) [![Code Climate](https://codeclimate.com/github/hammernight/taza.png)](https://codeclimate.com/github/hammernight/taza) [![Build Status](https://snap-ci.com/hammernight/taza/branch/master/build_image)](https://snap-ci.com/hammernight/taza/branch/master)
 
-###### Branches [![Build Status](https://secure.travis-ci.org/hammernight/taza.png)](http://travis-ci.org/hammernight/taza)
+###### Branches 
+[![Build Status](https://secure.travis-ci.org/hammernight/taza.png)](http://travis-ci.org/hammernight/taza)
 
 
 * https://github.com/hammernight/taza
