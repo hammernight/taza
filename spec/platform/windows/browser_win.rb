@@ -1,9 +1,9 @@
-require 'spec/spec_helper'
+require_relative '../../spec_helper'
 require 'taza/browser'
 require 'taza/settings'
 require 'taza/options'
 require 'selenium'
-require 'watir'
+require 'watir-webdriver'
 
 describe Taza::Browser do
 
@@ -16,32 +16,31 @@ describe Taza::Browser do
     ENV['DRIVER'] = nil
     ENV['TIMEOUT'] = nil
   end
+
   it "should be able to attach to an open IE instance" do
-    require 'watir'
     browser = Object.new
-    Watir::IE.stubs(:find).returns(browser)
-    Watir::IE.stubs(:new).returns(browser)
-    old_browser = Watir::IE.new
-    new_browser = Taza::Browser.create(:browser => :ie, :driver => :watir, :attach => true) 
-    new_browser.should eql(old_browser)
+    Watir::Browser.stubs(:find).returns(browser)
+    Watir::Browser.stubs(:new).returns(browser)
+    old_browser = Watir::Browser.new
+    new_browser = Taza::Browser.create(:browser => :ie, :driver => :watir, :attach => true)
+    expect(new_browser).to eql old_browser
   end
-  
+
   it "should be able to open a new IE instance if there is no instance to attach to" do
-    require 'watir'
     browser = Object.new
-    Watir::IE.stubs(:find).returns()
-    Watir::IE.stubs(:new).returns(browser)
-    new_browser = Taza::Browser.create(:browser => :ie, :driver => :watir) 
-    browser.nil?.should be_false 
+    Watir::Browser.stubs(:find).returns()
+    Watir::Browser.stubs(:new).returns(browser)
+    Taza::Browser.create(:browser => :ie, :driver => :watir)
+    expect(browser).to be_truthy
   end
+
   it "should be able to open a new IE instance if attach not specified" do
-    require 'watir'
     foo = Object.new
     bar = Object.new
-    Watir::IE.stubs(:find).returns(foo)
-    Watir::IE.stubs(:new).returns(bar)
-    new_browser = Taza::Browser.create(:browser => :ie, :driver => :watir) 
-    new_browser.should_not eql(foo)
+    Watir::Browser.stubs(:find).returns(foo)
+    Watir::Browser.stubs(:new).returns(bar)
+    new_browser = Taza::Browser.create(:browser => :ie, :driver => :watir)
+    expect(new_browser).to_not eql foo
   end
 
 end
