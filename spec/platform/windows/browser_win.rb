@@ -28,7 +28,7 @@ describe Taza::Browser do
 
   it "should be able to open a new IE instance if there is no instance to attach to" do
     browser = Object.new
-    Watir::Browser.stubs(:find).returns()
+    Watir::Browser.stubs(:find).returns(stub_everything)
     Watir::Browser.stubs(:new).returns(browser)
     Taza::Browser.create(:browser => :ie, :driver => :watir)
     expect(browser).to be_truthy
