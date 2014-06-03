@@ -55,11 +55,11 @@ module Taza
     end
 
     def self.watir_ie(params)
-      require 'watir'
+      require 'watir-webdriver'
       if params[:attach]
-        browser = Watir::IE.find(:title, //)
+        browser = Watir::Browser.find(:title, //)
       end
-      browser || Watir::IE.new
+      browser || Watir::Browser.new
     end
   end
 

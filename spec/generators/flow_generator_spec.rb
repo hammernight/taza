@@ -14,7 +14,7 @@ describe Taza::FlowGenerator do
 
       it 'a checkout.rb' do
         expect(output).to include('lib/sites/foo_site/flows/checkout.rb')
-        expect(File.exists?('lib/sites/foo_site/flows/checkout.rb')).to be_true
+        expect(File.exists?('lib/sites/foo_site/flows/checkout.rb')).to be true
       end
 
       it 'a message if site does not exist' do
