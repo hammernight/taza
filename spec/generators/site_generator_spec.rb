@@ -49,8 +49,8 @@ describe Taza::SiteGenerator do
         stub_browser
         foo = nil
         @site_class.new { |site| foo = site }
-        foo.should_not be_nil
-        foo.should be_a_kind_of(Taza::Site)
+        expect(foo).to_not be_nil
+        expect(foo).to be_a_kind_of Taza::Site
       end
     end
   end

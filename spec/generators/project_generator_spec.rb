@@ -19,7 +19,7 @@ describe Taza::ProjectGenerator do
 
       it 'the Rakefile can be required' do
         output
-        system("ruby -c Rakefile > #{null_device}").should be_truthy
+        expect(system("ruby -c Rakefile > #{null_device}")).to be_truthy
       end
 
       it 'config/config.yml' do
@@ -39,7 +39,7 @@ describe Taza::ProjectGenerator do
 
       it 'spec_helper.rb can be required' do
         output
-        system("ruby -c spec/spec_helper.rb > #{null_device}").should be_truthy
+        expect(system("ruby -c spec/spec_helper.rb > #{null_device}")).to be_truthy
       end
 
       it 'spec/isolation' do
@@ -64,12 +64,12 @@ describe Taza::ProjectGenerator do
 
       xit "should generate a console script" do
         run_generator('taza', [APP_ROOT], generator_sources)
-        File.exists?(File.join(APP_ROOT, 'script', 'console')).should be true
+        expect(File.exists?(File.join(APP_ROOT, 'script', 'console'))).to be true
       end
 
       xit "should generate a windows console script" do
         run_generator('taza', [APP_ROOT], generator_sources)
-        File.exists?(File.join(APP_ROOT, 'script', 'console.cmd')).should be true
+        expect(File.exists?(File.join(APP_ROOT, 'script', 'console.cmd'))).to be true
       end
     end
   end
