@@ -25,6 +25,7 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency(%q<Selenium>, ["~> 1.1.14"])
   s.add_runtime_dependency(%q<firewatir>, ["~> 1.9.4"])
   s.add_runtime_dependency(%q<watir-webdriver>, ["~> 0.4"])
+  s.add_runtime_dependency(%q<watir>, ["~> 5.0.0"])
   s.add_runtime_dependency(%q<activesupport>, [">= 3.1.0"])
   s.add_runtime_dependency(%q<thor>, [">= 0.18.1"])
 end
