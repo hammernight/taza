@@ -254,6 +254,6 @@ describe Taza::Site do
     browser.expects(:close).never
     Taza::Browser.stubs(:create).returns(browser)
     Taza::Site.donot_close_browser
-    lambda { Foo.new { |site| raise StandardError}}.should raise_error
+    expect(lambda { Foo.new { |site| raise StandardError}}).to raise_error
   end
 end
