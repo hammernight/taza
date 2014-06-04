@@ -5,10 +5,10 @@ describe "Site Specific Fixtures" do
   include Taza::Fixtures::FooSite
 
   it "should be able to access fixtures in sub-folders" do
-    bars(:foo).name.should eql("foo")
+    expect(bars(:foo).name).to eql 'foo'
   end
 
   it "should not be able to access non-site-specific fixtures" do
-    lambda{foos(:gap)}.should raise_error(NoMethodError)
+    expect(lambda{foos(:gap)}).to raise_error(NoMethodError)
   end
 end

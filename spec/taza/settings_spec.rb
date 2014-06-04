@@ -20,44 +20,44 @@ describe Taza::Settings do
   it "should use environment variable for browser settings" do
     Taza::Settings.stubs(:path).returns("#{@original_directory}/spec/sandbox")
     ENV['BROWSER'] = 'foo'
-    Taza::Settings.config(@site_name)[:browser].should eql('foo')
+    expect(Taza::Settings.config(@site_name)[:browser]).to eql 'foo'
   end
 
   it "should provide default values if no config file or environment settings provided" do
     Taza::Settings.stubs(:path).returns("#{@original_directory}/spec/sandbox")
-    Taza::Settings.config(@site_name)[:driver].should eql('selenium')
-    Taza::Settings.config(@site_name)[:browser].should eql('firefox')
-    Taza::Settings.config(@site_name)[:attach].should eql(false)
+    expect(Taza::Settings.config(@site_name)[:driver]).to eql 'selenium'
+    expect(Taza::Settings.config(@site_name)[:browser]).to eql 'firefox'
+    expect(Taza::Settings.config(@site_name)[:attach]).to eql false
   end
 
   it "should use environment variable for driver settings" do
     Taza::Settings.stubs(:path).returns("#{@original_directory}/spec/sandbox")
     ENV['DRIVER'] = 'bar'
-    Taza::Settings.config(@site_name)[:driver].should eql('bar')
+    expect(Taza::Settings.config(@site_name)[:driver]).to eql 'bar'
   end
 
   it "should be able to load the site yml" do
     Taza::Settings.stubs(:path).returns("#{@original_directory}/spec/sandbox")
-    Taza::Settings.config("SiteName")[:url].should eql('http://google.com')
+    expect(Taza::Settings.config("SiteName")[:url]).to eql 'http://google.com'
   end
 
   it "should be able to load a alternate site url" do
     ENV['TAZA_ENV'] = 'clown_shoes'
     Taza::Settings.stubs(:path).returns("#{@original_directory}/spec/sandbox")
-    Taza::Settings.config("SiteName")[:url].should eql('http://clownshoes.com')
+    expect(Taza::Settings.config("SiteName")[:url]).to eql 'http://clownshoes.com'
   end
 
   it "should use the config file's variable for browser settings if no environment variable is set" do
     UserChoices::YamlConfigFileSource.any_instance.stubs(:format_specific_reading).returns({'browser' => 'fu'})
     Taza::Settings.stubs(:path).returns("#{@original_directory}//spec/sandbox")
-    Taza::Settings.config(@site_name)[:browser].should eql('fu')
+    expect(Taza::Settings.config(@site_name)[:browser]).to eql 'fu'
   end
 
   it "should use the ENV variables if specfied instead of config files" do
     ENV['BROWSER'] = 'opera'
     UserChoices::YamlConfigFileSource.any_instance.stubs(:format_specific_reading).returns({'browser' => 'fu'})
     Taza::Settings.stubs(:path).returns("#{@original_directory}/spec/sandbox")
-    Taza::Settings.config(@site_name)[:browser].should eql('opera')
+    expect(Taza::Settings.config(@site_name)[:browser]).to eql 'opera'
   end
 
   it "should use the correct config file to set defaults" do
@@ -67,17 +67,17 @@ describe Taza::Settings do
 
   it "should raise error for a config file that doesnot exist" do
     Taza::Settings.stubs(:path).returns("#{@original_directory}/spec/sandbox/file_not_exists.yml")
-    lambda {Taza::Settings.config}.should raise_error
+    expect(lambda {Taza::Settings.config}).to raise_error
   end
 
   it "should path point at root directory" do
-    Taza::Settings.path.should eql('.')
+    expect(Taza::Settings.path).to eql '.'
   end
 
   it "should use the config file's variable for driver settings if no environment variable is set" do
     UserChoices::YamlConfigFileSource.any_instance.stubs(:format_specific_reading).returns({'driver' => 'fun'})
     Taza::Settings.stubs(:path).returns("#{@original_directory}/spec/sandbox")
-    Taza::Settings.config(@site_name)[:driver].should eql('fun')
+    expect(Taza::Settings.config(@site_name)[:driver]).to eql 'fun'
   end
 
   class SiteName < Taza::Site
@@ -86,7 +86,7 @@ describe Taza::Settings do
 
   it "a site should be able to load its settings" do
     Taza::Settings.stubs(:path).returns("#{@original_directory}/spec/sandbox")
-    SiteName.settings[:url].should eql('http://google.com')
+    expect(SiteName.settings[:url]).to eql 'http://google.com'
   end
 
 end

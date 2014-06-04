@@ -3,10 +3,10 @@ require 'extensions/string'
 
 describe "string extensions" do
   it "should pluralize and to sym a string" do
-    "apple".pluralize_to_sym.should eql(:apples)
+    expect("apple".pluralize_to_sym).to eql :apples
   end
 
   it "should variablize words with spaces" do
-    "foo -  BAR".variablize.should eql("foo_bar")
+    expect("foo -  BAR".variablize).to eql 'foo_bar'
   end
 end
