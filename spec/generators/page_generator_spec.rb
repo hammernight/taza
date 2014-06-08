@@ -30,7 +30,7 @@ describe Taza::PageGenerator do
       it 'generates a page that can be required' do
         output
         page_spec = 'spec/isolation/home_page_spec.rb'
-        expect(system("ruby -c #{page_spec} > #{null_device}")).to be_truthy
+        expect(system("ruby -c #{page_spec} > #{null_device}")).to be true
       end
 
       xit "should be able to access the generated page from the site" do

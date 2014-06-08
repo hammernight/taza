@@ -19,7 +19,7 @@ describe Taza::ProjectGenerator do
 
       it 'the Rakefile can be required' do
         output
-        expect(system("ruby -c Rakefile > #{null_device}")).to be_truthy
+        expect(system("ruby -c Rakefile > #{null_device}")).to be true
       end
 
       it 'config/config.yml' do
@@ -39,7 +39,7 @@ describe Taza::ProjectGenerator do
 
       it 'spec_helper.rb can be required' do
         output
-        expect(system("ruby -c spec/spec_helper.rb > #{null_device}")).to be_truthy
+        expect(system("ruby -c spec/spec_helper.rb > #{null_device}")).to be true
       end
 
       it 'spec/isolation' do
