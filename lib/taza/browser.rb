@@ -25,7 +25,11 @@ module Taza
 
     def self.create_watir_webdriver(params)
       require 'watir-webdriver'
-      Watir::Browser.new(params[:browser])
+      if params[:options] && (not params[:options].empty?) then
+        Watir::Browser.new(params[:browser], params[:options])
+      else
+        Watir::Browser.new(params[:browser])
+      end
     end
 
     def self.create_selenium(params)
