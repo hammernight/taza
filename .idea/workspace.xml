@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="2bee9c1a-401f-4ef7-972d-a363d21ca516" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/taza.gemspec" afterPath="$PROJECT_DIR$/taza.gemspec" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
     </list>
     <ignored path="taza.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -25,17 +25,32 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="taza.gemspec" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="taza.gemspec" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/taza.gemspec">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="1.0738255" vertical-offset="0" max-vertical-offset="570">
-              <caret line="32" column="59" selection-start-line="32" selection-start-column="0" selection-end-line="32" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="570">
+              <caret line="30" column="50" selection-start-line="30" selection-start-column="50" selection-end-line="30" selection-end-column="50" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name=".gitignore" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/.gitignore">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.16778524" vertical-offset="0" max-vertical-offset="447">
+              <caret line="5" column="6" selection-start-line="5" selection-start-column="6" selection-end-line="5" selection-end-column="6" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
     </leaf>
+  </component>
+  <component name="FindManager">
+    <FindUsagesManager>
+      <setting name="OPEN_NEW_TAB" value="true" />
+    </FindUsagesManager>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -44,6 +59,7 @@
     <option name="changedFiles">
       <list>
         <option value="$PROJECT_DIR$/taza.gemspec" />
+        <option value="$PROJECT_DIR$/.gitignore" />
       </list>
     </option>
   </component>
@@ -124,15 +140,15 @@
     <editor active="false" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32909605" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3297568" sideWeight="0.5" order="-1" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3297568" sideWeight="0.5" order="-1" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32909605" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32909605" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
@@ -158,8 +174,16 @@
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/taza.gemspec">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="1.0738255" vertical-offset="0" max-vertical-offset="570">
-          <caret line="32" column="59" selection-start-line="32" selection-start-column="0" selection-end-line="32" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="570">
+          <caret line="30" column="50" selection-start-line="30" selection-start-column="50" selection-end-line="30" selection-end-column="50" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.16778524" vertical-offset="0" max-vertical-offset="447">
+          <caret line="5" column="6" selection-start-line="5" selection-start-column="6" selection-end-line="5" selection-end-column="6" />
           <folding />
         </state>
       </provider>
