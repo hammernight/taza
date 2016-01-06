@@ -23,7 +23,7 @@ module Taza
     end
     
     def self.site_file(site_name) # :nodoc:
-      YAML.load_file(File.join(config_folder,"#{site_name.underscore}.yml"))[ENV['TAZA_ENV']]
+      YAML.load(ERB.new(File.read(File.join(config_folder,"#{site_name.underscore}.yml"))).result)[ENV['TAZA_ENV']]
     end
 
     def self.path # :nodoc:

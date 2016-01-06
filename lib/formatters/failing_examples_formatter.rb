@@ -1,4 +1,4 @@
-require 'rspec/core/formatters/documentation_formatter'
+require 'rspec'
 
 class FailingExamplesFormatter < RSpec::Core::Formatters::DocumentationFormatter
 
