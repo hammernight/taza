@@ -19,8 +19,7 @@ Gem::Specification.new do |s|
   s.require_paths         = ["lib"]
 
   s.add_runtime_dependency(%q<rake>, [">= 0.9.2"])
-  s.add_runtime_dependency(%q<mocha>, ["~> 0.9.3"])
-  s.add_runtime_dependency(%q<rspec>, ["~> 2.6"])
+  s.add_development_dependency(%q<mocha>, ["~> 0.9.3"])
   s.add_runtime_dependency(%q<user-choices>, ["~> 1.1.6.1"])
   s.add_runtime_dependency(%q<Selenium>, ["~> 1.1.14"])
   s.add_runtime_dependency(%q<firewatir>, ["~> 1.9.4"])
@@ -28,4 +27,7 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency(%q<watir>, ["~> 5.0.0"])
   s.add_runtime_dependency(%q<activesupport>, [">= 3.1.0"])
   s.add_runtime_dependency(%q<thor>, [">= 0.18.1"])
+
+  s.add_development_dependency(%q<rspec>, ["~> 3.1"])
+
 end
