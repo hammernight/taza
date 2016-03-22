@@ -1,5 +1,7 @@
 language: ruby
-before_install: gem install bundler -v 1.11.2
+before_install:
+  - gem update --system
+  - gem update bundler
 script: "bundle exec rspec spec"
 rvm:
   - 1.9.3
@@ -12,3 +14,4 @@ notifications:
   email:
     - pnascimento@gmail.com
     - oriekenjr@gmail.com
+
