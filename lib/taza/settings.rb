@@ -25,7 +25,7 @@ module Taza
     def self.site_file(site_name) # :nodoc:
       yaml_file = YAML.load_file(File.join(config_folder, "#{site_name.underscore}.yml"))
       yaml_file.fetch(ENV['TAZA_ENV']) do
-        fail "TAZA_ENV = #{ENV['TAZA_ENV']} not found in #{site_name.underscore}.yml. Use one of these environment names: #{yaml_file.keys}"
+        fail "TAZA_ENV = #{ENV['TAZA_ENV']} not found in #{site_name.underscore}.yml. Use one of these values for environment: #{yaml_file.keys}"
       end
     end
 
