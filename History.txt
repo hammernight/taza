@@ -1,3 +1,7 @@
+=== master
+
+* Run builds against more versions of Ruby and ActiveSupport
+
 === 1.0
 updated to RSpec 3 (thanks @drewboardman)
 taza now accepts erb settings.yml (thanks @drewboardman)

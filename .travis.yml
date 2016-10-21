@@ -1,6 +1,6 @@
 language: ruby
 before_install: gem install bundler -v 1.11.2
-script: "bundle exec rspec spec"
+script: "bundle exec rspec"
 rvm:
   - 1.9.3
   - 2.0.0
@@ -12,10 +12,34 @@ rvm:
   - jruby-9.0.1.0
   - rbx-2
   - rbx-3
+gemfile:
+  - Gemfile.activesupport-3.1
+  - Gemfile.activesupport-3.2
+  - Gemfile.activesupport-4.0
+  - Gemfile.activesupport-4.1
+  - Gemfile.activesupport-4.2
+  - Gemfile.activesupport-5.0
 matrix:
   allow_failures:
     - rvm: ruby-head
     - rvm: rbx-3
+  exclude:
+    - rvm: 1.9.3
+      gemfile: Gemfile.activesupport-5.0
+    - rvm: 2.0.0
+      gemfile: Gemfile.activesupport-3.1
+    - rvm: 2.0.0
+      gemfile: Gemfile.activesupport-5.0
+    - rvm: 2.1
+      gemfile: Gemfile.activesupport-3.1
+    - rvm: 2.1
+      gemfile: Gemfile.activesupport-5.0
+    - rvm: 2.2
+      gemfile: Gemfile.activesupport-3.1
+    - rvm: 2.3
+      gemfile: Gemfile.activesupport-3.1
+    - rvm: 2.3
+      gemfile: Gemfile.activesupport-3.2
   fast_finish: true
 notifications:
   email:
