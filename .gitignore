@@ -2,7 +2,5 @@
 .bundle
 Gemfile.lock
 pkg/*
-.rspec
 .rvmrc
 .idea/
-
