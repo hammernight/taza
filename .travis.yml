@@ -1,46 +1,34 @@
 language: ruby
 before_install: gem update --remote bundler
-install:
-  - bundle install --retry=3
-script: "bundle exec rspec"
-rvm:
-  - 1.9.3
-  - 2.0.0
-  - 2.1
-  - 2.2
-  - 2.3
-  - ruby-head
-  - jruby-19mode
-  - jruby-9.0.1.0
-  - rbx-2
-  - rbx-3
+cache: bundler
 gemfile:
-  - Gemfile.activesupport-3.1
   - Gemfile.activesupport-3.2
   - Gemfile.activesupport-4.0
   - Gemfile.activesupport-4.1
   - Gemfile.activesupport-4.2
   - Gemfile.activesupport-5.0
 matrix:
+  include:
+    - rvm: 2.0
+    - rvm: 2.1
+    - rvm: 2.2
+    - rvm: 2.3
+    - rvm: ruby-head
+    - rvm: jruby-9
+    - rvm: rbx-2.2.7
+    - rvm: rbx-3
   allow_failures:
     - rvm: ruby-head
+    - rvm: rbx-2.2.7
     - rvm: rbx-3
   exclude:
-    - rvm: 1.9.3
-      gemfile: Gemfile.activesupport-5.0
-    - rvm: 2.0.0
-      gemfile: Gemfile.activesupport-3.1
-    - rvm: 2.0.0
+    - rvm: 2.0
       gemfile: Gemfile.activesupport-5.0
     - rvm: 2.1
-      gemfile: Gemfile.activesupport-3.1
-    - rvm: 2.1
       gemfile: Gemfile.activesupport-5.0
-    - rvm: 2.2
-      gemfile: Gemfile.activesupport-3.1
     - rvm: 2.3
-      gemfile: Gemfile.activesupport-3.1
-    - rvm: 2.3
+      gemfile: Gemfile.activesupport-3.2
+    - rvm: ruby-head
       gemfile: Gemfile.activesupport-3.2
   fast_finish: true
 notifications:

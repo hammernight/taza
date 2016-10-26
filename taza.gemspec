@@ -11,7 +11,7 @@ Gem::Specification.new do |s|
   s.homepage              = "http://github.com/hammernight/taza"
   s.summary               = "Taza is an opinionated page object framework."
   s.description           = "Taza is an opinionated page object framework."
-  s.required_ruby_version = '>= 1.9.3'
+  s.required_ruby_version = '>= 2.0.0'
   s.rubyforge_project     = "taza"
   s.files                 = `git ls-files`.split("\n")
   s.test_files            = `git ls-files -- {test,spec,features}/*`.split("\n")
@@ -25,7 +25,7 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency(%q<firewatir>, ["~> 1.9.4"])
   s.add_runtime_dependency(%q<watir-webdriver>, ["~> 0.4"])
   s.add_runtime_dependency(%q<watir>, ["~> 5.0.0"])
-  s.add_runtime_dependency(%q<activesupport>, [">= 3.1.0"])
+  s.add_runtime_dependency(%q<activesupport>, [">= 3.2.0"])
   s.add_runtime_dependency(%q<thor>, [">= 0.18.1"])
   s.add_runtime_dependency(%q<rspec>, ["~> 3.0"])
 end
