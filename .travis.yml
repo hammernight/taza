@@ -1,6 +1,15 @@
 language: ruby
 before_install: gem update --remote bundler
 cache: bundler
+rvm:
+  - 2.0
+  - 2.1
+  - 2.2
+  - 2.3
+  - ruby-head
+  - jruby-9
+  - rbx-2.2.7
+  - rbx-3
 gemfile:
   - Gemfile.activesupport-3.2
   - Gemfile.activesupport-4.0
@@ -8,15 +17,6 @@ gemfile:
   - Gemfile.activesupport-4.2
   - Gemfile.activesupport-5.0
 matrix:
-  include:
-    - rvm: 2.0
-    - rvm: 2.1
-    - rvm: 2.2
-    - rvm: 2.3
-    - rvm: ruby-head
-    - rvm: jruby-9
-    - rvm: rbx-2.2.7
-    - rvm: rbx-3
   allow_failures:
     - rvm: ruby-head
     - rvm: rbx-2.2.7
@@ -30,6 +30,8 @@ matrix:
       gemfile: Gemfile.activesupport-3.2
     - rvm: ruby-head
       gemfile: Gemfile.activesupport-3.2
+    - rvm: jruby-9
+      gemfile: Gemfile.activesupport-5.0
   fast_finish: true
 notifications:
   email:
