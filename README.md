@@ -44,7 +44,6 @@ Here's an example for starting a project around Google apps:
 
 ```
   $ taza create google
-  $ cd google/
   $ taza site google
   $ taza page home google
   $ taza flow search google
