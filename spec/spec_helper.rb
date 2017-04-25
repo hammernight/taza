@@ -3,7 +3,7 @@ require 'bundler/setup'
 require 'mocha'
 require 'taza'
 require 'thor'
-require 'watir-webdriver'
+require 'watir'
 require 'selenium-webdriver'
 
 RSpec.configure do |config|
