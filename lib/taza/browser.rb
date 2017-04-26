@@ -24,7 +24,7 @@ module Taza
     end
 
     def self.create_watir_webdriver(params)
-      require 'watir-webdriver'
+      require 'watir'
       Watir::Browser.new(params[:browser])
     end
 
