@@ -1,3 +1,2 @@
 ---
 browser: <%= browser %>
-driver: <%= driver.gsub('-', '_') %>
