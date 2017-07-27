@@ -17,6 +17,7 @@ describe Taza::Browser do
   end
 
   it "should use params browser type when using a custom driver" do
+    skip 'Travis cannot start a real browser'
     options = Selenium::WebDriver::Chrome::Options.new
     driver = Selenium::WebDriver.for(:chrome, options: options)
     Taza::Browser.create(:browser => driver)
