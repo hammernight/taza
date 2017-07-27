@@ -25,15 +25,7 @@ describe Taza::Settings do
 
   it "should provide default values if no config file or environment settings provided" do
     Taza::Settings.stubs(:path).returns("#{@original_directory}/spec/sandbox")
-    expect(Taza::Settings.config(@site_name)[:driver]).to eql 'selenium'
     expect(Taza::Settings.config(@site_name)[:browser]).to eql 'firefox'
-    expect(Taza::Settings.config(@site_name)[:attach]).to eql false
-  end
-
-  it "should use environment variable for driver settings" do
-    Taza::Settings.stubs(:path).returns("#{@original_directory}/spec/sandbox")
-    ENV['DRIVER'] = 'bar'
-    expect(Taza::Settings.config(@site_name)[:driver]).to eql 'bar'
   end
 
   it "should be able to load the site yml" do
@@ -72,12 +64,6 @@ describe Taza::Settings do
 
   it "should path point at root directory" do
     expect(Taza::Settings.path).to eql '.'
-  end
-
-  it "should use the config file's variable for driver settings if no environment variable is set" do
-    UserChoices::YamlConfigFileSource.any_instance.stubs(:format_specific_reading).returns({'driver' => 'fun'})
-    Taza::Settings.stubs(:path).returns("#{@original_directory}/spec/sandbox")
-    expect(Taza::Settings.config(@site_name)[:driver]).to eql 'fun'
   end
 
   class SiteName < Taza::Site
