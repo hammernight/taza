@@ -14,7 +14,6 @@ describe Taza::Settings do
     ENV['TAZA_ENV'] = 'isolation'
     ENV['BROWSER'] = nil
     ENV['DRIVER'] = nil
-    ENV['ATTACH'] = nil
   end
 
   it "should use environment variable for browser settings" do
@@ -25,6 +24,7 @@ describe Taza::Settings do
 
   it "should provide default values if no config file or environment settings provided" do
     Taza::Settings.stubs(:path).returns("#{@original_directory}/spec/sandbox")
+    expect(Taza::Settings.config(@site_name)[:driver]).to eql 'watir'
     expect(Taza::Settings.config(@site_name)[:browser]).to eql 'firefox'
   end
 
