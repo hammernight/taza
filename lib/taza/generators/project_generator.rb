@@ -7,6 +7,7 @@ module Taza
 
     argument :site_name
     argument :browser, :default => 'firefox'
+    argument :driver, :default => 'watir'
 
     def self.source_root
       File.dirname(__FILE__)
