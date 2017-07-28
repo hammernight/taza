@@ -29,11 +29,15 @@ describe Taza::Browser do
   end
 
   it "should raise an argument error when creating an unknown browser with selenium webdriver" do
-    expect(lambda { Taza::Browser.create(:browser => :foo, :driver => :selenium_webdriver) }).to raise_error(ArgumentError)
+    expect(lambda { Taza::Browser.create(:browser => :foo, :driver => :selenium_webdriver) }).to raise_error(StandardError)
   end
   
   it "should raise an argument error when creating an unknown browser with watir" do
-    expect(lambda { Taza::Browser.create(:browser => :foo, :driver => :watir) }).to raise_error(ArgumentError)
+    expect(lambda { Taza::Browser.create(:browser => :foo, :driver => :watir) }).to raise_error(StandardError)
+  end
+
+  it "should raise an error when creating a browser with an unknown driver" do
+    expect(lambda { Taza::Browser.create(:browser => :firefox, :driver => :foo) }).to raise_error(StandardError)
   end
 
   it "should use params browser type when creating an watir instance" do

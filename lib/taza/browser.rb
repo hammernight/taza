@@ -8,7 +8,12 @@ module Taza
     #
     def self.create(params={}, *args)
       params[:driver] ||= 'watir'
-      send("create_#{params[:driver]}", params, *args)
+      method = "create_#{params[:driver]}"
+      if self.respond_to?(method)
+        send(method, params, *args)
+      else
+        raise BrowserUnsupportedError, "Could not create browser using `#{params[:driver]}`"
+      end
     end
 
     private
@@ -23,5 +28,7 @@ module Taza
       Selenium::WebDriver.for(params[:browser].to_sym, *args)
     end
   end
+
+  class BrowserUnsupportedError < StandardError; end
 end
 
