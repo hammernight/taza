@@ -109,11 +109,9 @@ module Taza
     end
 
     def add_element_method(params) # :nodoc:
-      metaclass.class_eval do
-        define_method(params[:element_name]) do |*args|
-          check_filters(params)
-          self.instance_exec(*args,&params[:element_block])
-        end
+      define_singleton_method(params[:element_name]) do |*args|
+        check_filters(params)
+        self.instance_exec(*args, &params[:element_block])
       end
     end
 

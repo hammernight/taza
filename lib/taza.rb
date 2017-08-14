@@ -7,7 +7,6 @@ require 'taza/settings'
 require 'taza/flow'
 require 'taza/entity'
 require 'taza/fixtures'
-require 'extensions/object'
 require 'extensions/hash'
 require 'formatters/failing_examples_formatter'
 
