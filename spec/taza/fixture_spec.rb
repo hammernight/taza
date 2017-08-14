@@ -1,6 +1,5 @@
 require 'spec_helper'
 require 'taza/fixture'
-require 'extensions/array'
 
 describe Taza::Fixture do
   before :each do
@@ -30,7 +29,7 @@ describe Taza::Fixture do
   it "should be able to get all fixtures loaded excluding sub-folder fixtures" do
     fixture = Taza::Fixture.new
     fixture.load_fixtures_from(@base_path)
-    expect(fixture.fixture_names).to be_equivalent [:examples,:users,:foos]
+    expect(fixture.fixture_names).to contain_exactly(:examples, :users, :foos)
   end
 
   it "should be able to get specific fixture entities" do

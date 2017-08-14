@@ -10,7 +10,6 @@ require 'taza/fixtures'
 require 'extensions/object'
 require 'extensions/string'
 require 'extensions/hash'
-require 'extensions/array'
 require 'formatters/failing_examples_formatter'
 
 #generators
