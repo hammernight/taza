@@ -1,8 +1,4 @@
 class Hash
-  def convert_hash_keys_to_methods(fixture) # :nodoc:
-    Taza::Entity.new(self,fixture)
-  end
-
   # Recursively replace key names that should be symbols with symbols.
   def key_strings_to_symbols!
     result = Hash.new

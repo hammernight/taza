@@ -28,7 +28,7 @@ module Taza
         templatized_fixture=ERB.new(File.read(file))
         entitized_fixture = {}
         YAML.load(templatized_fixture.result).each do |key, value|
-          entitized_fixture[key] = value.convert_hash_keys_to_methods(self)
+          entitized_fixture[key] = Taza::Entity.new(value, self)
         end
         @fixtures[File.basename(file,'.yml').to_sym] = entitized_fixture
       end
