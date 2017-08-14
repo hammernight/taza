@@ -4,14 +4,14 @@ describe Taza::PageGenerator do
   include Helpers::Taza
 
   before(:each) do
-    capture(:stdout) { Taza::SiteGenerator.new(['foo_site']).site }
+    capture_stdout { Taza::SiteGenerator.new(['foo_site']).site }
   end
 
   context "taza page home foo_site" do
     context "creates" do
 
       let(:subject) { Taza::PageGenerator.new(['home', 'foo_site']) }
-      let(:output) { capture(:stdout) { subject.page  }}
+      let(:output) { capture_stdout { subject.page  }}
 
       it 'creates a checkout_page.rb' do
         expect(output).to include('lib/sites/foo_site/pages/home_page.rb')
@@ -23,7 +23,7 @@ describe Taza::PageGenerator do
       end
 
       it 'gives message if site does not exist' do
-        bar_page = capture(:stdout) { Taza::PageGenerator.new(['checkout', 'bar_site']).page }
+        bar_page = capture_stdout { Taza::PageGenerator.new(['checkout', 'bar_site']).page }
         expect(bar_page).to include("No such site bar_site exists")
       end
 

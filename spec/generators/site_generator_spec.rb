@@ -5,7 +5,7 @@ describe Taza::SiteGenerator do
     context "creates" do
 
       let(:subject) { Taza::SiteGenerator.new(['foo_site']) }
-      let(:output) { capture(:stdout) { subject.site } }
+      let(:output) { capture_stdout { subject.site } }
 
       it 'foo_site.rb' do
         expect(output).to include('lib/sites/foo_site.rb')
@@ -38,7 +38,7 @@ describe Taza::SiteGenerator do
       end
 
       it 'does not overwrite existing site' do
-        capture(:stdout) { Taza::SiteGenerator.new(['foo_site']).site }
+        capture_stdout { Taza::SiteGenerator.new(['foo_site']).site }
         expect(output).to include(*["identical", "exist"])
       end
 

@@ -5,7 +5,7 @@ describe Taza::ProjectGenerator do
     context "creates" do
 
       let(:subject) { Taza::ProjectGenerator.new(['foo_site']) }
-      let(:output) { capture(:stdout) { subject.create } }
+      let(:output) { capture_stdout { subject.create } }
 
       it 'a Gemfile' do
         expect(output).to include("Gemfile")

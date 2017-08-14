@@ -22,16 +22,15 @@ RSpec.configure do |config|
     FileUtils.rmtree(@directory)
   end
 
-  def capture(stream)
+  def capture_stdout
     begin
-      stream = stream.to_s
-      eval "$#{stream} = StringIO.new"
+      $stdout = StringIO.new
       yield
-      result = eval("$#{stream}").string
+      out = $stdout.string
     ensure
-      eval("$#{stream} = #{stream.upcase}")
+      $stdout = STDOUT
     end
-    result
+    out
   end
 end
 
