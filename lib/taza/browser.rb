@@ -1,69 +1,60 @@
 module Taza
-  class Browser
+  class << self
+    def browsers
+      @browsers ||= ActiveSupport::HashWithIndifferentAccess.new
+    end
 
+    def define_browser(name, &block)
+      browsers[name] = block
+    end
+  end
+
+  class Browser
     # Create a browser instance depending on configuration.  Configuration should be read in via Taza::Settings.config.
     #
     # Example:
     #     browser = Taza::Browser.create(Taza::Settings.config)
     #
     def self.create(params={})
-      self.send("create_#{params[:driver]}".to_sym,params)
-    end
-
-    def self.browser_class(params)
-      self.send("#{params[:driver]}_#{params[:browser]}".to_sym)
+      params[:driver] ||= :watir
+      method = "create_#{params[:driver]}"
+      if Taza.browsers.key?(params[:browser])
+        create_defined_browser(params[:browser])
+      elsif self.respond_to?(method)
+        send(method, params)
+      else
+        raise BrowserUnsupportedError,
+          "Could not create a browser using `driver: #{params[:driver]}` or `browser: #{params[:browser]}`"
+      end
     end
 
     private
 
     def self.create_watir(params)
-      method = "watir_#{params[:browser]}"
-      raise BrowserUnsupportedError unless self.respond_to?(method)
-      watir = self.send(method,params)
-      watir
-    end
-
-    def self.create_watir_webdriver(params)
-      require 'watir-webdriver'
+      require 'watir'
+      unless official_browser?(params[:browser])
+        raise BrowserUnsupportedError, "`#{params[:browser]}` is not a browser supported by Watir"
+      end
       Watir::Browser.new(params[:browser])
-    end
-
-    def self.create_selenium(params)
-      require 'selenium'
-      Selenium::SeleniumDriver.new(params[:server_ip],params[:server_port],'*' + params[:browser].to_s,params[:timeout])
     end
 
     def self.create_selenium_webdriver(params)
       require 'selenium-webdriver'
-      #Small hack. :)
-      Selenium::WebDriver::Driver.class_eval do
-        def goto(params)
-          navigate.to params
-        end
+      unless official_browser?(params[:browser])
+        raise BrowserUnsupportedError, "`#{params[:browser]}` is not a browser supported by Selenium WebDriver"
       end
-      Selenium::WebDriver.for params[:browser].to_sym
+      Selenium::WebDriver.for(params[:browser])
     end
 
-    def self.watir_firefox(params)
-      require 'firewatir'
-      FireWatir::Firefox.new
+    def self.create_defined_browser(browser)
+      Taza.browsers[browser].call
     end
 
-    def self.watir_safari(params)
-      require 'safariwatir'
-      Watir::Safari.new
-    end
-
-    def self.watir_ie(params)
-      require 'watir'
-      if params[:attach]
-        browser = Watir::Browser.find(:title, //)
-      end
-      browser || Watir::Browser.new
+    def self.official_browser?(name)
+      ['firefox', 'chrome', 'ie'].include? name.to_s
     end
   end
-
-  # We don't know how to create the browser you asked for
+  
   class BrowserUnsupportedError < StandardError; end
 end
 

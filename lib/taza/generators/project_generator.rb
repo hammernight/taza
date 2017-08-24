@@ -6,8 +6,8 @@ module Taza
     include Thor::Actions
 
     argument :site_name
-    argument :driver, :default => 'watir-webdriver'
     argument :browser, :default => 'firefox'
+    argument :driver, :default => 'watir'
 
     def self.source_root
       File.dirname(__FILE__)

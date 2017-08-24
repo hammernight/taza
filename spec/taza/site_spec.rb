@@ -18,7 +18,6 @@ describe Taza::Site do
     @flows_path = File.join(@original_directory, 'spec', 'sandbox', 'flows', '*.rb')
     Foo.any_instance.stubs(:pages_path).returns(@pages_path)
     ENV['BROWSER'] = nil
-    ENV['DRIVER'] = nil
     Taza::Settings.stubs(:config_file).returns({})
     Taza::Settings.stubs(:site_file).returns({})
     Taza::Site.before_browser_closes {}
