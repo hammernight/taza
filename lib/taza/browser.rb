@@ -16,45 +16,46 @@ module Taza
     #     browser = Taza::Browser.create(Taza::Settings.config)
     #
     def self.create(params={})
-      params[:driver] ||= :watir
-      method = "create_#{params[:driver]}"
-      if Taza.browsers.key?(params[:browser])
-        create_defined_browser(params[:browser])
-      elsif self.respond_to?(method)
-        send(method, params)
-      else
-        raise BrowserUnsupportedError,
-          "Could not create a browser using `driver: #{params[:driver]}` or `browser: #{params[:browser]}`"
-      end
+      params.symbolize_keys!
+      params[:browser] = params[:browser].to_sym
+      params[:driver] = params[:driver].to_sym if params[:driver]
+      raise BrowserUnknownError unless Taza.browsers.key?(params[:browser])
+      build_browser(params[:browser], params[:driver])
     end
 
     private
-
-    def self.create_watir(params)
-      require 'watir'
-      unless official_browser?(params[:browser])
-        raise BrowserUnsupportedError, "`#{params[:browser]}` is not a browser supported by Watir"
+    
+    def self.build_browser(browser, driver)
+      browser_instance = Taza.browsers[browser].call
+      raise BrowserUnsupportedError unless supported_driver?(browser_instance)
+      if selenium_webdriver?(browser_instance) && driver.eql?(:watir)
+        Watir::Browser.new browser_instance
+      else
+        browser_instance
       end
-      Watir::Browser.new(params[:browser])
     end
 
-    def self.create_selenium_webdriver(params)
-      require 'selenium-webdriver'
-      unless official_browser?(params[:browser])
-        raise BrowserUnsupportedError, "`#{params[:browser]}` is not a browser supported by Selenium WebDriver"
-      end
-      Selenium::WebDriver.for(params[:browser])
+    def self.supported_driver?(browser_instance)
+      watir?(browser_instance) || selenium_webdriver?(browser_instance)
     end
 
-    def self.create_defined_browser(browser)
-      Taza.browsers[browser].call
+    def self.watir?(browser_instance)
+      browser_instance.is_a? Watir::Browser
     end
 
-    def self.official_browser?(name)
-      ['firefox', 'chrome', 'ie'].include? name.to_s
+    def self.selenium_webdriver?(browser_instance)
+      browser_instance.is_a? Selenium::WebDriver::Driver
+    end
+
+  end
+
+  [:firefox, :chrome, :ie, :phantomjs].each do |browser|
+    Taza.define_browser browser do
+      Selenium::WebDriver.for browser
     end
   end
-  
+
+  class BrowserUnknownError < StandardError; end
   class BrowserUnsupportedError < StandardError; end
 end
 

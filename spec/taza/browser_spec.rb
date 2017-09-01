@@ -3,52 +3,57 @@ require 'spec_helper'
 describe Taza::Browser do
 
   before :each do
-    Taza::Settings.stubs(:config_file).returns({})
+    Taza::Settings.stubs(:path).returns("#{@original_directory}/spec/sandbox")
     ENV['TAZA_ENV'] = 'isolation'
-    ENV['SERVER_PORT'] = nil
-    ENV['SERVER_IP'] = nil
-    ENV['BROWSER'] = nil
-    ENV['DRIVER'] = nil
-    ENV['TIMEOUT'] = nil
+    @settings = Taza::Settings.config('SiteName')
+    @browser = nil
   end
 
-  it "should raise unknown browser error for unsupported watir browsers" do
-    expect(lambda { Taza::Browser.create(:browser => :foo_browser_9000,:driver => :watir) }).to raise_error(StandardError)
+  after :each do
+    @browser.quit unless @browser.nil?
   end
 
-  it "should use driver param when creating a browser with selenium webdriver" do
+  it 'should use the defaults provided by settings' do
     skip 'Travis cannot start a real browser'
-    Taza::Browser.create(:browser => :firefox, :driver => :selenium_webdriver)
-  end
-
-  it "should raise an argument error when creating an unknown browser with selenium webdriver" do
-    expect(lambda { Taza::Browser.create(:browser => :foo, :driver => :selenium_webdriver) }).to raise_error(Taza::BrowserUnsupportedError)
+    @browser = Taza::Browser.create(@settings)
+    expect(@browser.name).to eq :firefox
+    expect(@browser).to be_an_instance_of Watir::Browser
   end
   
-  it "should raise an argument error when creating an unknown browser with watir" do
-    expect(lambda { Taza::Browser.create(:browser => :foo, :driver => :watir) }).to raise_error(Taza::BrowserUnsupportedError)
-  end
-
-  it "should raise an error when creating a browser with an unknown driver" do
-    expect(lambda { Taza::Browser.create(:browser => :firefox, :driver => :foo) }).to raise_error(Taza::BrowserUnsupportedError)
-  end
-
-  it "should use params browser type when creating an watir instance" do
-    Watir::Browser.expects(:new).with(:firefox)
-    browser = Taza::Browser.create(:browser => :firefox)
-  end
-
-  it 'should use params browser type when creating an selenium webdriver instance' do
-    Selenium::WebDriver.expects(:for).with(:firefox)
-    browser = Taza::Browser.create(browser: :firefox, driver: :selenium_webdriver)
-  end
-
-  it 'should use a valid user-created browser instance' do
+  it 'should use a defined browser' do
     skip 'Travis cannot start a real browser'
     Taza.define_browser :foo do
       options = Selenium::WebDriver::Chrome::Options.new
       Watir::Browser.new(:chrome, options: options)
     end
-    expect(Taza::Browser.create(browser: :foo).class).to eq Watir::Browser
+    @browser = Taza::Browser.create(@settings.merge(browser: :foo))
+    expect(@browser.name).to eql :chrome
+    expect(@browser).to be_a Watir::Browser
+  end
+
+  it 'should use use a defined browser without watir' do
+    skip 'Travis cannot start a real browser'
+    Taza.define_browser :foo do
+      Selenium::WebDriver.for(:chrome)
+    end
+    @browser = Taza::Browser.create(browser: :foo)
+    expect(@browser.browser).to eql :chrome
+    expect(@browser).to be_a Selenium::WebDriver::Driver
+  end
+
+  it 'should return an error when defined browser is not using supported drivers' do
+    class Unsupported; end
+    Taza.define_browser :foo do
+      Unsupported.new
+    end
+    expect(lambda { Taza::Browser.create(browser: :foo) }).to raise_error(Taza::BrowserUnsupportedError)
+  end
+
+  it 'should return an error when browser is not defined' do
+    expect(lambda { Taza::Browser.create(browser: :bar) }).to raise_error(Taza::BrowserUnknownError)
+  end
+
+  it 'should provide a set of default browsers' do
+    expect(Taza.browsers.keys).to include "chrome", "firefox", "ie", "phantomjs"
   end
 end
