@@ -25,7 +25,7 @@ describe Taza::Settings do
   it "should provide default values if no config file or environment settings provided" do
     Taza::Settings.stubs(:path).returns("#{@original_directory}/spec/sandbox")
     expect(Taza::Settings.config(@site_name)[:driver]).to eql 'watir'
-    expect(Taza::Settings.config(@site_name)[:browser]).to eql 'firefox'
+    expect(Taza::Settings.config(@site_name)[:browser]).to eql 'chrome'
   end
 
   it "should be able to load the site yml" do

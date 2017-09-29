@@ -10,7 +10,7 @@ module Taza
     end
 
     def add_choices(builder)
-     builder.add_choice(:browser, :type=>:string, :default=>'firefox')
+     builder.add_choice(:browser, :type=>:string, :default=>'chrome')
      builder.add_choice(:driver, :type=>:string, :default=>'watir')
     end
 
