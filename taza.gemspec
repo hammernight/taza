@@ -26,4 +26,6 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency(%q<activesupport>, [">= 3.2.0"])
   s.add_runtime_dependency(%q<thor>, [">= 0.18.1"])
   s.add_runtime_dependency(%q<rspec>, ["~> 3.0"])
+  s.add_development_dependency(%q<pry>)
+  s.add_development_dependency(%q<pry-nav>)
 end

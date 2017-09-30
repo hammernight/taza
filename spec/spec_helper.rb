@@ -5,6 +5,8 @@ require 'taza'
 require 'thor'
 require 'watir'
 require 'selenium-webdriver'
+require 'pry'
+require 'pry-nav'
 
 RSpec.configure do |config|
   config.mock_with :mocha

@@ -1,1 +1,3 @@
 nothing: something
+chrome:
+  headless: true

@@ -21,7 +21,7 @@ module Taza
     def define_browser(name, &block)
       browsers[name] = block
     end
-    
+
   end
 
   class Browser
@@ -47,7 +47,7 @@ module Taza
     def self.create_common_browser(browser, driver = nil, params = {})
       driver ||= 'watir'
       raise BrowserUnsupportedError unless common_browser?(browser)
-      Taza.send("define_browser_with_#{driver}", browser.to_sym, params)
+      Taza.send("define_browser_with_#{driver}", browser.to_sym, params[browser])
       Taza.browsers[browser].call
     end
 
@@ -71,11 +71,8 @@ module Taza
 
     def self.common_browser?(browser)
       [:firefox, :chrome, :ie].include? browser
-
     end
   end
-
-  Taza.define_browser_with_watir(:chrome)
 
   class BrowserUnsupportedError < StandardError; end
   class BrowserUndefinedError < StandardError; end

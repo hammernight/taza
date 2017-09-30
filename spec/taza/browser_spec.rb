@@ -15,14 +15,14 @@ describe Taza::Browser do
   end
 
   it 'should use the defaults provided by settings' do
-    skip 'Travis cannot start a real browser'
+    # skip 'Travis cannot start a real browser'
     @browser = Taza::Browser.create(@settings)
     expect(@browser.name).to eq :chrome
     expect(@browser).to be_an_instance_of Watir::Browser
   end
   
   it 'should use a defined browser' do
-    skip 'Travis cannot start a real browser'
+    # skip 'Travis cannot start a real browser'
     Taza.define_browser :foo do
       options = Selenium::WebDriver::Chrome::Options.new
       Watir::Browser.new(:chrome, options: options)
@@ -48,39 +48,20 @@ describe Taza::Browser do
     expect(Taza.browsers.keys).to include "chrome"
   end
 
-  it 'should overwrite default chrome browser definition' do
-    skip 'Travis cannot start a real browser'
-    @browser = Taza::Browser.create(browser: :chrome)
-    Taza.define_browser :chrome do
-      Selenium::WebDriver.for(:chrome)
-    end
-    @expected_browser = Taza::Browser.create(browser: :chrome)
-    expect(@browser.class).not_to eq @expected_browser.class
-  end
-
-  it 'should create a watir browser instance based on params' do
-    skip 'Travis cannot start a real browser'
-    Taza.define_browser_with_watir(:chrome, headless: true, disable_gpu: true)
-    @browser = Taza::Browser.create(browser: 'chrome')
-    expect(@browser).to be_a Watir::Browser
-  end
-
-  it 'should return argument error when using unknown params with selenium webdriver' do
+  it 'should return argument error when using unknown params' do
     Taza.define_browser_with_selenium_webdriver(:chrome, derp: true)
     expect(lambda { Taza::Browser.create(browser: :chrome) }).to raise_error(ArgumentError)
   end
 
-  it 'should not return an argument error when using unknown params with watir' do
-    # Watir::Capabilities class is designed to only process what it knowns
-    # Unknown options simply never reach Selenium::WebDriver to produce an error
-    Taza.define_browser_with_watir(:chrome, derp: true)
-    expect(lambda { Taza::Browser.create(browser: :chrome) }).not_to raise_error(ArgumentError)
-  end
-
-  it 'should create a browser instance when the browser is common but undefined' do
-    skip 'Travis cannot start a real browser'
+  it 'should define and create a browser instance when the browser is common but undefined' do
+    # skip 'Travis cannot start a real browser'
     @browser = Taza::Browser.create(browser: 'firefox')
     expect(@browser.name).to eq :firefox
     expect(@browser).to be_a Watir::Browser
+  end
+
+  it 'should return an error when browser is defined with name that is not a common browser' do
+    Taza.define_browser_with_selenium_webdriver(:derp)
+    expect(lambda { Taza::Browser.create(browser: :derp) }).to raise_error(ArgumentError)
   end
 end
