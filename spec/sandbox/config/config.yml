@@ -1,3 +1,5 @@
 nothing: something
 chrome:
+  args: ['--screenshot']
   headless: true
+  disable_gpu: true
