@@ -1,20 +1,26 @@
 module Taza
   class << self
+    attr_accessor :current_browser
+
+    def set_current_browser(browser)
+      @current_browser = browser
+    end
+
     def browsers
       @browsers ||= ActiveSupport::HashWithIndifferentAccess.new
     end
 
     def define_browser_with_watir(name, params = {})
-      browser = params && params.key?(:browser) ? params[:browser] : name
+      browser = params[:browser] ? params.delete(:browser) : name
       define_browser name do
-        Watir::Browser.new(browser, params)
+        Watir::Browser.new(browser.to_sym, params)
       end
     end
     
     def define_browser_with_selenium_webdriver(name, params = {})
-      browser = params.key?(:browser) ? params[:browser] : name
+      browser = params[:browser] ? params.delete(:browser) : name
       define_browser name do
-        Selenium::WebDriver.for(browser, params)
+        Selenium::WebDriver.for(browser.to_sym, params)
       end
     end
      
@@ -30,15 +36,13 @@ module Taza
     # Example:
     #     browser = Taza::Browser.create(Taza::Settings.config)
     #
-    def self.create(params={})
-      # params.deep_symbolize_keys!
-      raise BrowserConfigurationError, 
-        ':browser parameter is missing or nil' unless params[:browser]
-      browser, driver = params[:browser].to_sym, params[:driver]
+    def self.create(browser, params={})
+      browser = browser.to_sym
+      driver = params[:driver]
       if Taza.browsers.key?(browser)
         create_defined_browser(browser)
       else
-        create_common_browser(browser, driver, params[browser])
+        create_common_browser(browser, driver, params)
       end
     end
 
@@ -76,6 +80,7 @@ module Taza
   end
 
   class BrowserUnsupportedError < StandardError; end
-  class BrowserConfigurationError < StandardError; end
+  class BrowserNotDefinedError < StandardError; end
+  class BrowserArgumentError < ArgumentError; end
 end
 

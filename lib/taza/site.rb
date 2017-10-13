@@ -32,6 +32,7 @@ module Taza
     def self.donot_close_browser
       @@donot_close_browser = true
     end
+
     attr_accessor :browser
 
     # A site can be called a few different ways
@@ -53,42 +54,46 @@ module Taza
       @class_name  = self.class.to_s.split("::").last
       define_site_pages
       define_flows
-      config = Settings.config(@class_name)
-      if params[:browser]
-        @browser = params[:browser]
-      else
-        @browser = Browser.create(config)
-        @i_created_browser = true
-      end
-      @browser.goto(params[:url] || config[:url]) unless params[:url] == false
-      execute_block_and_close_browser(browser,&block) if block_given?
+      config = Settings.config(@class_name).merge(params)
+      browser_name = config[:browser] || :chrome
+      browser_params = config[browser_name] || nil
+      @browser = Browser.create(browser_name, browser_params)
+      goto(config[:url]) unless config[:url]
+      
+      # @i_created_browser = true
+      # execute_block_and_close_browser(browser,&block) if block_given?
     end
 
-    def execute_block_and_close_browser(browser)
-      begin
-        yield self
-      rescue => site_block_exception
-      ensure
-        begin
-          @@before_browser_closes.call(browser)
-        rescue => before_browser_closes_block_exception
-          "" # so basically rcov has a bug where it would insist this block is uncovered when empty
-        end
-        close_browser_and_raise_if site_block_exception || before_browser_closes_block_exception
-      end
+    def goto(url)
+      driver = browser.responde_to?(:driver) ? browser.wd : browser
+      driver.navigate.to url
     end
+
+    # def execute_block_and_close_browser(browser)
+    #   begin
+    #     yield self
+    #   rescue => site_block_exception
+    #   ensure
+    #     begin
+    #       @@before_browser_closes.call(browser)
+    #     rescue => before_browser_closes_block_exception
+    #       "" # so basically rcov has a bug where it would insist this block is uncovered when empty
+    #     end
+    #     close_browser_and_raise_if site_block_exception || before_browser_closes_block_exception
+    #   end
+    # end
 
     def self.settings # :nodoc:
       Taza::Settings.site_file(self.name.to_s.split("::").last)
     end
 
-    def close_browser_and_raise_if original_error # :nodoc:
-      begin
-        @browser.close if (@i_created_browser && !@@donot_close_browser)
-      ensure
-        raise original_error if original_error
-      end
-    end
+    # def close_browser_and_raise_if original_error # :nodoc:
+    #   begin
+    #     @browser.close if (@i_created_browser && !@@donot_close_browser)
+    #   ensure
+    #     raise original_error if original_error
+    #   end
+    # end
 
     def define_site_pages # :nodoc:
       Dir.glob(pages_path) do |file|
