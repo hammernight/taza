@@ -14,15 +14,8 @@ describe Taza::Browser do
     @expected_browser.quit unless @expected_browser.nil?
   end
 
-  # it 'should use the defaults provided by settings' do
-  #   # skip 'Travis cannot start a real browser'
-  #   @browser = Taza::Browser.create(@settings)
-  #   expect(@browser.name).to eq :chrome
-  #   expect(@browser).to be_a Watir::Browser
-  # end
-
   it 'should create a user-defined browser' do
-    # skip 'Travis cannot start a real browser'
+    skip 'Travis cannot start a real browser'
     Taza.define_browser :foo do
       options = Selenium::WebDriver::Chrome::Options.new
       Watir::Browser.new(:chrome, options: options)
@@ -33,14 +26,14 @@ describe Taza::Browser do
   end
 
   it 'should create a common browser when none are defined' do
-    # skip 'Travis cannot start a real browser'
+    skip 'Travis cannot start a real browser'
     @browser = Taza::Browser.create(:firefox)
     expect(@browser.name).to eq :firefox
     expect(@browser).to be_a Watir::Browser
   end
   
   it 'should create a user-defined chrome browser with watir' do
-    # skip 'Travis cannot start a real browser'
+    skip 'Travis cannot start a real browser'
     Taza.define_browser_with_watir :chrome, headless: true
     @browser = Taza::Browser.create(:chrome)
     expect(@browser.name).to eq :chrome
@@ -48,7 +41,7 @@ describe Taza::Browser do
   end
   
   it 'should create a user-defined chrome browser with watir and a custom name' do
-    # skip 'Travis cannot start a real browser'
+    skip 'Travis cannot start a real browser'
     Taza.define_browser_with_watir :foo, browser: :chrome, headless: true
     @browser = Taza::Browser.create(:foo)
     expect(@browser.name).to eq :chrome
