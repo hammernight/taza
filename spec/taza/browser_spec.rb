@@ -35,7 +35,6 @@ describe Taza::Browser do
   it 'should create a common browser when none are defined' do
     # skip 'Travis cannot start a real browser'
     @browser = Taza::Browser.create(:firefox)
-    binding.pry
     expect(@browser.name).to eq :firefox
     expect(@browser).to be_a Watir::Browser
   end
@@ -44,7 +43,6 @@ describe Taza::Browser do
     # skip 'Travis cannot start a real browser'
     Taza.define_browser_with_watir :chrome, headless: true
     @browser = Taza::Browser.create(:chrome)
-    binding.pry
     expect(@browser.name).to eq :chrome
     expect(@browser).to be_a Watir::Browser
   end
@@ -70,7 +68,7 @@ describe Taza::Browser do
   end
 
   it 'should return an error when browser is both uncommon and undefined' do
-    expect(lambda { Taza::Browser.create(:bar) }).to raise_error(Taza::BrowserUnsupportedError)
+    expect(lambda { Taza::Browser.create(:bar) }).to raise_error(Taza::BrowserNotDefinedError)
   end
 
   it 'should return argument error when using unknown params with selenium webdriver' do

@@ -1,24 +1,18 @@
 module Taza
   class << self
-    attr_accessor :current_browser
-
-    def set_current_browser(browser)
-      @current_browser = browser
-    end
-
     def browsers
       @browsers ||= ActiveSupport::HashWithIndifferentAccess.new
     end
 
     def define_browser_with_watir(name, params = {})
-      browser = params[:browser] ? params.delete(:browser) : name
+      browser = params && params[:browser] ? params.delete(:browser) : name
       define_browser name do
         Watir::Browser.new(browser.to_sym, params)
       end
     end
     
     def define_browser_with_selenium_webdriver(name, params = {})
-      browser = params[:browser] ? params.delete(:browser) : name
+      browser = params && params[:browser] ? params.delete(:browser) : name
       define_browser name do
         Selenium::WebDriver.for(browser.to_sym, params)
       end
@@ -27,7 +21,6 @@ module Taza
     def define_browser(name, &block)
       browsers[name] = block
     end
-
   end
 
   class Browser
@@ -36,9 +29,9 @@ module Taza
     # Example:
     #     browser = Taza::Browser.create(Taza::Settings.config)
     #
-    def self.create(browser, params={})
+    def self.create(browser, driver = 'watir', params={})
       browser = browser.to_sym
-      driver = params[:driver]
+      driver = driver.to_sym
       if Taza.browsers.key?(browser)
         create_defined_browser(browser)
       else
@@ -48,10 +41,9 @@ module Taza
 
     private
 
-    def self.create_common_browser(browser, driver = nil, params = {})
-      raise BrowserUnsupportedError, 
-        "`#{browser}` is not a common browser" unless common_browser?(browser)
-      driver ||= 'watir'
+    def self.create_common_browser(browser, driver, params = {})
+      raise BrowserNotDefinedError, 
+        "`#{browser}` browser is undefined." unless common_browser?(browser)
       Taza.send("define_browser_with_#{driver}", browser, params)
       Taza.browsers[browser].call
     end
@@ -81,6 +73,5 @@ module Taza
 
   class BrowserUnsupportedError < StandardError; end
   class BrowserNotDefinedError < StandardError; end
-  class BrowserArgumentError < ArgumentError; end
 end
 

@@ -49,51 +49,58 @@ module Taza
     # Sites can take a couple of parameters in the constructor:
     #   :browser => a browser object to act on instead of creating one automatically
     #   :url => the url of where to start the site
-    def initialize(params={},&block)
+    def initialize(params = {}, &block)
       @module_name = self.class.parent.to_s
       @class_name  = self.class.to_s.split("::").last
       define_site_pages
       define_flows
       config = Settings.config(@class_name).merge(params)
-      browser_name = config[:browser] || :chrome
-      browser_params = config[browser_name] || nil
-      @browser = Browser.create(browser_name, browser_params)
-      goto(config[:url]) unless config[:url]
-      
-      # @i_created_browser = true
-      # execute_block_and_close_browser(browser,&block) if block_given?
+      browser_name = config[:browser] || 'chrome'
+      browser_driver = config[:driver] || 'watir' 
+      browser_params = config[browser_name] || {}
+      @browser = Browser.create(browser_name, browser_driver, browser_params)
+      goto(config[:url]) if config[:url]
+      execute_block_and_close_browser(browser, &block) if block_given?
     end
 
-    def goto(url)
-      driver = browser.responde_to?(:driver) ? browser.wd : browser
-      driver.navigate.to url
+    def execute_block_and_close_browser(browser)
+      begin
+        yield self
+      rescue => site_block_exception
+      ensure
+        begin
+          @@before_browser_closes.call(browser)
+        rescue => before_browser_closes_block_exception
+          "" # so basically rcov has a bug where it would insist this block is uncovered when empty
+        end
+        close_browser_and_raise_if site_block_exception || before_browser_closes_block_exception
+      end
     end
 
-    # def execute_block_and_close_browser(browser)
-    #   begin
-    #     yield self
-    #   rescue => site_block_exception
-    #   ensure
-    #     begin
-    #       @@before_browser_closes.call(browser)
-    #     rescue => before_browser_closes_block_exception
-    #       "" # so basically rcov has a bug where it would insist this block is uncovered when empty
-    #     end
-    #     close_browser_and_raise_if site_block_exception || before_browser_closes_block_exception
-    #   end
-    # end
+
+    def close_browser_and_raise_if original_error # :nodoc:
+      begin
+        close unless @@donot_close_browser
+      ensure
+        raise original_error if original_error
+      end
+    end
+
+    def goto(url) # :nodoc:
+      @browser.goto url browser.is_a? Watir::Browser
+      @browser.navigate.to url browser.is_a? Selenium::WebDriver::Driver
+      # driver = browser.respond_to?(:driver) ? browser.driver : browser
+      # driver.navigate.to url
+    end
+    
+    def close # :nodoc:
+      @browser.close if browser
+    end
 
     def self.settings # :nodoc:
       Taza::Settings.site_file(self.name.to_s.split("::").last)
     end
 
-    # def close_browser_and_raise_if original_error # :nodoc:
-    #   begin
-    #     @browser.close if (@i_created_browser && !@@donot_close_browser)
-    #   ensure
-    #     raise original_error if original_error
-    #   end
-    # end
 
     def define_site_pages # :nodoc:
       Dir.glob(pages_path) do |file|
