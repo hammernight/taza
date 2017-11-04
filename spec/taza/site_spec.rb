@@ -38,13 +38,14 @@ describe Taza::Site do
     Barz.any_instance.stubs(:flows_path).returns("#{@original_directory}/spec/sandbox/flows/batman.rb")
     expect(Barz.new.batman_flow).to eql 'i am batman'
   end
-
-  it 'should open watir browsers at the configuration URL' do
+  
+  it 'should open watir browsers at the configured site URL' do
     browser = stub_browser
-    Foo.any_instance.expects(:goto).with('a_url')
-    Taza::Browser.stubs(:create).with('chrome', 'watir', {}).returns(browser)
-    Taza::Settings.stubs(:config).returns(:url => 'a_url')
-    Foo.new
+    SiteName = Class.new(Taza::Site)
+    SiteName.any_instance.expects(:goto).with('a_url')
+    Taza::Settings.stubs(:site_file).with('SiteName').returns(url: 'a_url')
+    Taza::Browser.stubs(:create).returns(browser)
+    SiteName.new
   end
   
   it 'should yield an instance of a page class' do
