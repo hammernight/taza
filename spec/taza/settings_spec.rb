@@ -41,7 +41,7 @@ describe Taza::Settings do
 
   it "should use the config file's variable for browser settings if no environment variable is set" do
     UserChoices::YamlConfigFileSource.any_instance.stubs(:format_specific_reading).returns({'browser' => 'fu'})
-    Taza::Settings.stubs(:path).returns("#{@original_directory}//spec/sandbox")
+    Taza::Settings.stubs(:path).returns("#{@original_directory}/spec/sandbox")
     expect(Taza::Settings.config(@site_name)[:browser]).to eql 'fu'
   end
 
