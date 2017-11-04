@@ -87,8 +87,8 @@ module Taza
     end
 
     def goto(url) # :nodoc:
-      @browser.goto url browser.is_a? Watir::Browser
-      @browser.navigate.to url browser.is_a? Selenium::WebDriver::Driver
+      @browser.goto url if @browser.is_a? Watir::Browser
+      @browser.navigate.to url if @browser.is_a? Selenium::WebDriver::Driver
       # driver = browser.respond_to?(:driver) ? browser.driver : browser
       # driver.navigate.to url
     end
