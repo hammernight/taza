@@ -13,7 +13,7 @@ Gem::Specification.new do |s|
   s.description           = "Taza is an opinionated page object framework."
   s.required_ruby_version = '>= 2.0.0'
   s.rubyforge_project     = "taza"
-  s.files                 = `git ls-files`.split("\n")
+  s.files                 = `git ls-files lib bin History.txt README.md`.split("\n")
   s.test_files            = `git ls-files -- {test,spec,features}/*`.split("\n")
   s.executables           = `git ls-files -- bin/*`.split("\n").map { |f| File.basename(f) }
   s.require_paths         = ["lib"]
