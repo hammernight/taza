@@ -1,6 +1,5 @@
 require 'find'
 require 'erb'
-require 'extensions/hash'
 require 'taza/entity'
 
 module Taza
