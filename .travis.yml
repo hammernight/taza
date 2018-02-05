@@ -6,10 +6,10 @@ rvm:
   - 2.1
   - 2.2
   - 2.3
+  - 2.4
+  - 2.5
   - ruby-head
   - jruby-9
-  - rbx-2.2.7
-  - rbx-3
 gemfile:
   - Gemfile.activesupport-4.0
   - Gemfile.activesupport-4.1
@@ -18,15 +18,35 @@ gemfile:
 matrix:
   allow_failures:
     - rvm: ruby-head
-    - rvm: rbx-2.2.7
-    - rvm: rbx-3
   exclude:
     - rvm: 2.0
       gemfile: Gemfile.activesupport-5.0
     - rvm: 2.1
       gemfile: Gemfile.activesupport-5.0
+    - rvm: 2.2
+      gemfile: Gemfile.activesupport-5.0
     - rvm: jruby-9
       gemfile: Gemfile.activesupport-5.0
+    - rvm: 2.4
+      gemfile: Gemfile.activesupport-4.0
+    - rvm: ruby-head
+      gemfile: Gemfile.activesupport-4.0
+    - rvm: 2.4
+      gemfile: Gemfile.activesupport-4.1
+    - rvm: 2.5
+      gemfile: Gemfile.activesupport-4.0
+    - rvm: 2.5
+      gemfile: Gemfile.activesupport-4.1
+    - rvm: ruby-head
+      gemfile: Gemfile.activesupport-4.1
+    - rvm: 2.5
+      gemfile: Gemfile.activesupport-4.2
+    - rvm: ruby-head
+      gemfile: Gemfile.activesupport-4.0
+    - rvm: ruby-head
+      gemfile: Gemfile.activesupport-4.1
+    - rvm: ruby-head
+      gemfile: Gemfile.activesupport-4.2
   fast_finish: true
 notifications:
   email:
