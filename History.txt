@@ -1,6 +1,7 @@
 === master
 
 * Run builds against more versions of Ruby and ActiveSupport
+* Increase the ActiveSupport dependency to 4.0.2+
 
 === 1.0
 updated to RSpec 3 (thanks @drewboardman)

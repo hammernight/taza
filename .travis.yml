@@ -11,7 +11,6 @@ rvm:
   - rbx-2.2.7
   - rbx-3
 gemfile:
-  - Gemfile.activesupport-3.2
   - Gemfile.activesupport-4.0
   - Gemfile.activesupport-4.1
   - Gemfile.activesupport-4.2
@@ -26,10 +25,6 @@ matrix:
       gemfile: Gemfile.activesupport-5.0
     - rvm: 2.1
       gemfile: Gemfile.activesupport-5.0
-    - rvm: 2.3
-      gemfile: Gemfile.activesupport-3.2
-    - rvm: ruby-head
-      gemfile: Gemfile.activesupport-3.2
     - rvm: jruby-9
       gemfile: Gemfile.activesupport-5.0
   fast_finish: true

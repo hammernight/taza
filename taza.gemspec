@@ -25,7 +25,7 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency(%q<firewatir>, ["~> 1.9.4"])
   s.add_runtime_dependency(%q<watir-webdriver>, ["~> 0.4"])
   s.add_runtime_dependency(%q<watir>, [">= 5.0.0"])
-  s.add_runtime_dependency(%q<activesupport>, [">= 3.2.0"])
+  s.add_runtime_dependency(%q<activesupport>, [">= 4.0.2"])
   s.add_runtime_dependency(%q<thor>, [">= 0.18.1"])
   s.add_runtime_dependency(%q<rspec>, ["~> 3.0"])
 end
