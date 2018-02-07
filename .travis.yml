@@ -15,18 +15,27 @@ gemfile:
   - Gemfile.activesupport-4.1
   - Gemfile.activesupport-4.2
   - Gemfile.activesupport-5.0
+  - Gemfile.activesupport-5.1
 matrix:
   allow_failures:
     - rvm: ruby-head
   exclude:
     - rvm: 2.0
       gemfile: Gemfile.activesupport-5.0
+    - rvm: 2.0
+      gemfile: Gemfile.activesupport-5.1
     - rvm: 2.1
       gemfile: Gemfile.activesupport-5.0
+    - rvm: 2.1
+      gemfile: Gemfile.activesupport-5.1
     - rvm: 2.2
       gemfile: Gemfile.activesupport-5.0
+    - rvm: 2.2
+      gemfile: Gemfile.activesupport-5.1
     - rvm: jruby-9
       gemfile: Gemfile.activesupport-5.0
+    - rvm: jruby-9
+      gemfile: Gemfile.activesupport-5.1
     - rvm: 2.4
       gemfile: Gemfile.activesupport-4.0
     - rvm: ruby-head
