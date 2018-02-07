@@ -29,7 +29,7 @@ describe Taza::Browser do
 
   it "should use params browser type when creating an watir webdriver instance" do
     Watir::Browser.expects(:new).with(:firefox)
-    browser = Taza::Browser.create(:browser => :firefox, :driver => :watir_webdriver)
+    browser = Taza::Browser.create(:browser => :firefox, :driver => :watir)
   end
 
   it 'should use params browser type when creating a selenium webdriver instance' do
