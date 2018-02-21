@@ -1,7 +1,12 @@
 === master
 
+== 3.0.0
 * Run builds against more versions of Ruby and ActiveSupport
 * Increase the ActiveSupport dependency to 4.0.2+
+* Replace firewatir and watir-webdriver with watir
+* Drop support for Ruby 1.9.3
+* Add support for Ruby 2.4 and 2.5
+
 
 === 1.0
 updated to RSpec 3 (thanks @drewboardman)
