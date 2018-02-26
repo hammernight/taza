@@ -1,5 +1,7 @@
 === master
 
+* Do not require users to use Rake, RSpec, or Mocha
+
 == 3.0.0
 * Run builds against more versions of Ruby and ActiveSupport
 * Increase the ActiveSupport dependency to 4.0.2+
