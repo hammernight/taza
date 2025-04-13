@@ -1,8 +1,9 @@
-#taza [![Gem Version](https://badge.fury.io/rb/taza.svg)](https://badge.fury.io/rb/taza)
+# taza [![Gem Version](https://badge.fury.io/rb/taza.svg)](https://badge.fury.io/rb/taza)
+
 ## Build Status
 ###### Master 
-[![Build Status](https://travis-ci.org/hammernight/taza.svg?branch=master)](https://travis-ci.org/hammernight/taza) [![Code Climate](https://codeclimate.com/github/hammernight/taza.png)](https://codeclimate.com/github/hammernight/taza) [![Build Status](https://snap-ci.com/hammernight/taza/branch/master/build_image)](https://snap-ci.com/hammernight/taza/branch/master)
 
+![Build Status](https://github.com/hammernight/taza/actions/workflows/ruby.yml/badge.svg)
 
 * https://github.com/hammernight/taza
 * Wiki: http://github.com/scudco/taza/wikis
