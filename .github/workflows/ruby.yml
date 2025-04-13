@@ -19,6 +19,10 @@ jobs:
           - Gemfile.activesupport-5.1
         exclude:
           - ruby: jruby-9.3
+            gemfile: Gemfile.activesupport-4.0
+          - ruby: jruby-9.3
+            gemfile: Gemfile.activesupport-4.1
+          - ruby: jruby-9.3
             gemfile: Gemfile.activesupport-5.0
           - ruby: jruby-9.3
             gemfile: Gemfile.activesupport-5.1
