@@ -10,7 +10,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        ruby: [2.0.0, 2.1.10, 2.2.10, 2.3.8, 2.4.10, 2.5.9, ruby-head, jruby-9.3]
+        ruby: [2.5.9, 2.6.10, 2.7.8, jruby-9.3]
         gemfile:
           - Gemfile.activesupport-4.0
           - Gemfile.activesupport-4.1
@@ -18,45 +18,16 @@ jobs:
           - Gemfile.activesupport-5.0
           - Gemfile.activesupport-5.1
         exclude:
-          - ruby: 2.0.0
-            gemfile: Gemfile.activesupport-5.0
-          - ruby: 2.0.0
-            gemfile: Gemfile.activesupport-5.1
-          - ruby: 2.1.10
-            gemfile: Gemfile.activesupport-5.0
-          - ruby: 2.1.10
-            gemfile: Gemfile.activesupport-5.1
-          - ruby: 2.2.10
-            gemfile: Gemfile.activesupport-5.0
-          - ruby: 2.2.10
-            gemfile: Gemfile.activesupport-5.1
           - ruby: jruby-9.3
             gemfile: Gemfile.activesupport-5.0
           - ruby: jruby-9.3
             gemfile: Gemfile.activesupport-5.1
-          - ruby: 2.4.10
-            gemfile: Gemfile.activesupport-4.0
-          - ruby: 2.4.10
-            gemfile: Gemfile.activesupport-4.1
           - ruby: 2.5.9
             gemfile: Gemfile.activesupport-4.0
           - ruby: 2.5.9
             gemfile: Gemfile.activesupport-4.1
           - ruby: 2.5.9
             gemfile: Gemfile.activesupport-4.2
-          - ruby: ruby-head
-            gemfile: Gemfile.activesupport-4.0
-          - ruby: ruby-head
-            gemfile: Gemfile.activesupport-4.1
-          - ruby: ruby-head
-            gemfile: Gemfile.activesupport-4.2
-        include:
-          - ruby: ruby-head
-            gemfile: Gemfile.activesupport-5.0
-            continue-on-error: true
-          - ruby: ruby-head
-            gemfile: Gemfile.activesupport-5.1
-            continue-on-error: true
 
     continue-on-error: ${{ matrix.continue-on-error || false }}
 

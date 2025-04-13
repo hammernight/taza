@@ -11,7 +11,7 @@ Gem::Specification.new do |s|
   s.homepage              = "http://github.com/hammernight/taza"
   s.summary               = "Taza is an opinionated page object framework."
   s.description           = "Taza is an opinionated page object framework."
-  s.required_ruby_version = '>= 2.0.0'
+  s.required_ruby_version = '>= 2.5.9'
   s.rubyforge_project     = "taza"
   s.files                 = `git ls-files lib bin History.txt README.md`.split("\n")
   s.test_files            = `git ls-files -- {test,spec,features}/*`.split("\n")
