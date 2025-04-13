@@ -1,28 +1,82 @@
-name: Ruby
+name: Ruby CI
 
 on:
   push:
-    branches: [ "master" ]
+    branches:
+      - main
   pull_request:
-    branches: [ "master" ]
-
-permissions:
-  contents: read
+    branches:
+      - main
 
 jobs:
   test:
-
-    runs-on: ubuntu-latest
     strategy:
       matrix:
-        ruby-version: ['2.6', '2.7']
-
+        ruby-version:
+          - 2.0
+          - 2.1
+          - 2.2
+          - 2.3
+          - 2.4
+          - 2.5
+          - ruby-head
+          - jruby-9
+        gemfile:
+          - Gemfile.activesupport-4.0
+          - Gemfile.activesupport-4.1
+          - Gemfile.activesupport-4.2
+          - Gemfile.activesupport-5.0
+          - Gemfile.activesupport-5.1
+        exclude:
+          - ruby-version: 2.0
+            gemfile: Gemfile.activesupport-5.0
+          - ruby-version: 2.0
+            gemfile: Gemfile.activesupport-5.1
+          - ruby-version: 2.1
+            gemfile: Gemfile.activesupport-5.0
+          - ruby-version: 2.1
+            gemfile: Gemfile.activesupport-5.1
+          - ruby-version: 2.2
+            gemfile: Gemfile.activesupport-5.0
+          - ruby-version: 2.2
+            gemfile: Gemfile.activesupport-5.1
+          - ruby-version: jruby-9
+            gemfile: Gemfile.activesupport-5.0
+          - ruby-version: jruby-9
+            gemfile: Gemfile.activesupport-5.1
+          - ruby-version: 2.4
+            gemfile: Gemfile.activesupport-4.0
+          - ruby-version: ruby-head
+            gemfile: Gemfile.activesupport-4.0
+          - ruby-version: 2.4
+            gemfile: Gemfile.activesupport-4.1
+          - ruby-version: 2.5
+            gemfile: Gemfile.activesupport-4.0
+          - ruby-version: 2.5
+            gemfile: Gemfile.activesupport-4.1
+          - ruby-version: ruby-head
+            gemfile: Gemfile.activesupport-4.1
+          - ruby-version: 2.5
+            gemfile: Gemfile.activesupport-4.2
+          - ruby-version: ruby-head
+            gemfile: Gemfile.activesupport-4.2
+    runs-on: ubuntu-latest
+    allow_failures:
+      - ruby-version: ruby-head
     steps:
-    - uses: actions/checkout@v4
-    - name: Set up Ruby
-      uses: ruby/setup-ruby@v1
-      with:
-        ruby-version: ${{ matrix.ruby-version }}
-        bundler-cache: true
-    - name: Run tests
-      run: bundle exec rake
+      - uses: actions/checkout@v3
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ matrix.ruby-version }}
+          bundler-cache: true
+
+      - name: Install dependencies
+        run: |
+          gem update --remote bundler
+          bundle install --gemfile ${{ matrix.gemfile }}
+
+      - name: Run tests
+        run: |
+          bundle exec rspec
