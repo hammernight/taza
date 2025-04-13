@@ -49,7 +49,7 @@ module Taza
     #   :browser => a browser object to act on instead of creating one automatically
     #   :url => the url of where to start the site
     def initialize(params={},&block)
-      @module_name = self.class.to_s.split("::").first
+      @module_name = self.class.module_parent.to_s
       @class_name  = self.class.to_s.split("::").last
       define_site_pages
       define_flows
