@@ -21,7 +21,7 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency(%q<user-choices>, ["~> 1.1.0"])
   s.add_runtime_dependency(%q<Selenium>, ["~> 1.1.0"])
   s.add_runtime_dependency(%q<watir>, ["~> 7.3.0"])
-  s.add_runtime_dependency(%q<activesupport>, [">= 7.0.0"])
+  s.add_runtime_dependency(%q<activesupport>, [">= 7.1.0"])
   s.add_runtime_dependency(%q<thor>, ["~> 1.3.0"])
 
   s.add_development_dependency(%q<mocha>, ["~> 2.7.0"])
