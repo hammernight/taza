@@ -13,6 +13,7 @@ describe "Site Specific Fixtures" do
   end
 
   it "should not be able to access non-site-specific fixtures" do
-    expect(lambda { foos(:gap) }).to raise_error(NoMethodError)
+    expect { foos(:gap) }.to raise_error(NoMethodError)
   end
+
 end

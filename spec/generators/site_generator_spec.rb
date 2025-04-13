@@ -9,7 +9,7 @@ describe Taza::SiteGenerator do
 
       it 'foo_site.rb' do
         expect(output).to include('lib/sites/foo_site.rb')
-        expect(File.exists?('lib/sites/foo_site.rb')).to be true
+        expect(File.exist?('lib/sites/foo_site.rb')).to be true
       end
 
       it 'lib/sites/foo_site' do
@@ -34,7 +34,7 @@ describe Taza::SiteGenerator do
 
       it 'config/foo_site.yml' do
         expect(output).to include("config/foo_site.yml")
-        expect(File.exists?('config/foo_site.yml')).to be true
+        expect(File.exist?('config/foo_site.yml')).to be true
       end
 
       it 'does not overwrite existing site' do

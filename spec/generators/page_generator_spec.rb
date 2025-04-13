@@ -15,11 +15,11 @@ describe Taza::PageGenerator do
 
       it 'creates a checkout_page.rb' do
         expect(output).to include('lib/sites/foo_site/pages/home_page.rb')
-        expect(File.exists?('lib/sites/foo_site/pages/home_page.rb')).to be true
+        expect(File.exist?('lib/sites/foo_site/pages/home_page.rb')).to be true
       end
       it 'creates a checkout_page_spec.rb' do
         expect(output).to include('spec/isolation/home_page_spec.rb')
-        expect(File.exists?('spec/isolation/home_page_spec.rb')).to be true
+        expect(File.exist?('spec/isolation/home_page_spec.rb')).to be true
       end
 
       it 'gives message if site does not exist' do

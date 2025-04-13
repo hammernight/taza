@@ -27,7 +27,7 @@ describe "Taza Page Module" do
 
 
   it "should not execute elements that belong to a page module but accessed without it" do
-    expect(lambda { AnotherPageWithModule.new.another_module_element }).to raise_error(NoMethodError)
+    expect{ AnotherPageWithModule.new.another_module_element }.to raise_error(NoMethodError)
   end
 
   it "should execute elements in the context of their page module when accessed with it" do
@@ -100,7 +100,7 @@ describe "Taza Page Module" do
 
   it "should raise an error for page-module filters that return false" do
     page = PageWithFalseFilterAndModule.new(:module)
-    expect(lambda { page.sample_element }).to raise_error(Taza::FilterError)
+    expect{ page.sample_element }.to raise_error(Taza::FilterError)
   end
 
   class PageWithFilterAndModuleElements < ::Taza::Page
@@ -116,7 +116,7 @@ describe "Taza Page Module" do
 
   it "should execute filters for elements inside page modules" do
     page = PageWithFilterAndModuleElements.new(:module)
-    expect(lambda { page.sample_element }).to raise_error(Taza::FilterError)
+    expect{ page.sample_element }.to raise_error(Taza::FilterError)
   end
 
   class PageWithFiltersAndModuleElements < ::Taza::Page
@@ -139,7 +139,7 @@ describe "Taza Page Module" do
 
   it "should execute filters for specific and all elements inside page modules" do
     page = PageWithFiltersAndModuleElements.new(:module)
-    expect(lambda { page.sample_element }).to raise_error(Taza::FilterError)
+    expect{ page.sample_element }.to raise_error(Taza::FilterError)
     expect(page.another_sample_element).to eql :something
   end
 
@@ -167,7 +167,7 @@ describe "Taza Page Module" do
     foo = PageWithFiltersAndModulesAndElements.new(:foo_module)
     expect(foo.sample_element).to eql :something
     bar = PageWithFiltersAndModulesAndElements.new(:bar_module)
-    expect(lambda { bar.sample_element }).to raise_error(Taza::FilterError)
+    expect{ bar.sample_element }.to raise_error(Taza::FilterError)
   end
 
 end

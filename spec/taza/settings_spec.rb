@@ -67,7 +67,7 @@ describe Taza::Settings do
 
   it "should raise error for a config file that doesnot exist" do
     Taza::Settings.stubs(:path).returns("#{@original_directory}/spec/sandbox/file_not_exists.yml")
-    expect(lambda {Taza::Settings.config}).to raise_error(ArgumentError)
+    expect{Taza::Settings.config}.to raise_error(ArgumentError)
   end
 
   it "should path point at root directory" do
