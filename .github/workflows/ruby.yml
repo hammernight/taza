@@ -2,25 +2,15 @@ name: Ruby CI
 
 on:
   push:
-    branches:
-      - main
   pull_request:
-    branches:
-      - main
 
 jobs:
   test:
+    runs-on: ubuntu-latest
     strategy:
+      fail-fast: false
       matrix:
-        ruby-version:
-          - 2.0
-          - 2.1
-          - 2.2
-          - 2.3
-          - 2.4
-          - 2.5
-          - ruby-head
-          - jruby-9
+        ruby: [2.0.0, 2.1.10, 2.2.10, 2.3.8, 2.4.10, 2.5.9, ruby-head, jruby-9.3]
         gemfile:
           - Gemfile.activesupport-4.0
           - Gemfile.activesupport-4.1
@@ -28,55 +18,65 @@ jobs:
           - Gemfile.activesupport-5.0
           - Gemfile.activesupport-5.1
         exclude:
-          - ruby-version: 2.0
+          - ruby: 2.0.0
             gemfile: Gemfile.activesupport-5.0
-          - ruby-version: 2.0
+          - ruby: 2.0.0
             gemfile: Gemfile.activesupport-5.1
-          - ruby-version: 2.1
+          - ruby: 2.1.10
             gemfile: Gemfile.activesupport-5.0
-          - ruby-version: 2.1
+          - ruby: 2.1.10
             gemfile: Gemfile.activesupport-5.1
-          - ruby-version: 2.2
+          - ruby: 2.2.10
             gemfile: Gemfile.activesupport-5.0
-          - ruby-version: 2.2
+          - ruby: 2.2.10
             gemfile: Gemfile.activesupport-5.1
-          - ruby-version: jruby-9
+          - ruby: jruby-9.3
             gemfile: Gemfile.activesupport-5.0
-          - ruby-version: jruby-9
+          - ruby: jruby-9.3
             gemfile: Gemfile.activesupport-5.1
-          - ruby-version: 2.4
+          - ruby: 2.4.10
             gemfile: Gemfile.activesupport-4.0
-          - ruby-version: ruby-head
+          - ruby: 2.4.10
+            gemfile: Gemfile.activesupport-4.1
+          - ruby: 2.5.9
             gemfile: Gemfile.activesupport-4.0
-          - ruby-version: 2.4
+          - ruby: 2.5.9
             gemfile: Gemfile.activesupport-4.1
-          - ruby-version: 2.5
-            gemfile: Gemfile.activesupport-4.0
-          - ruby-version: 2.5
-            gemfile: Gemfile.activesupport-4.1
-          - ruby-version: ruby-head
-            gemfile: Gemfile.activesupport-4.1
-          - ruby-version: 2.5
+          - ruby: 2.5.9
             gemfile: Gemfile.activesupport-4.2
-          - ruby-version: ruby-head
+          - ruby: ruby-head
+            gemfile: Gemfile.activesupport-4.0
+          - ruby: ruby-head
+            gemfile: Gemfile.activesupport-4.1
+          - ruby: ruby-head
             gemfile: Gemfile.activesupport-4.2
-    runs-on: ubuntu-latest
-    allow_failures:
-      - ruby-version: ruby-head
+        include:
+          - ruby: ruby-head
+            gemfile: Gemfile.activesupport-5.0
+            continue-on-error: true
+          - ruby: ruby-head
+            gemfile: Gemfile.activesupport-5.1
+            continue-on-error: true
+
+    continue-on-error: ${{ matrix.continue-on-error || false }}
+
+    env:
+      BUNDLE_GEMFILE: ${{ matrix.gemfile }}
+
     steps:
       - uses: actions/checkout@v3
 
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: ${{ matrix.ruby-version }}
+          ruby-version: ${{ matrix.ruby }}
           bundler-cache: true
 
+      - name: Update Bundler
+        run: gem update --remote bundler
+
       - name: Install dependencies
-        run: |
-          gem update --remote bundler
-          bundle install --gemfile ${{ matrix.gemfile }}
+        run: bundle install
 
       - name: Run tests
-        run: |
-          bundle exec rspec
+        run: bundle exec rake
