@@ -11,7 +11,7 @@ describe Taza::Site do
   before(:all) do
     Foo = Class.new(Taza::Site)
   end
-  #TODO: we need to clean up these tests and remove the warning below
+  # TODO: we need to clean up these tests and remove the warning below
   #/Users/bisbot/Projects/Taza/taza/spec/taza/site_spec.rb:15: warning: already initialized constant Foo
   before :each do
     @pages_path = File.join(@original_directory, 'spec', 'sandbox', 'pages', 'foo', '**', '*.rb')
@@ -74,7 +74,7 @@ describe Taza::Site do
     browser = stub_browser
     browser.expects(:close)
     Taza::Browser.stubs(:create).returns(browser)
-    expect(lambda { Foo.new { |site| raise StandardError } }).to raise_error(StandardError)
+    expect { Foo.new { |site| raise StandardError } }.to raise_error(StandardError)
   end
 
   it 'should not close browser if block not given' do
@@ -90,21 +90,21 @@ describe Taza::Site do
     browser.stubs(:goto).raises(StandardError, 'ErrorOnBrowserGoto')
     browser.expects(:close).never
     Taza::Browser.stubs(:create).returns(browser)
-    expect(lambda { Foo.new }).to raise_error(StandardError, 'ErrorOnBrowserGoto')
+    expect { Foo.new }.to raise_error(StandardError, 'ErrorOnBrowserGoto')
   end
 
   it 'should raise browser close error if no other errors' do
     browser = stub_browser
     browser.expects(:close).raises(StandardError, 'BrowserCloseError')
     Taza::Browser.stubs(:create).returns(browser)
-    expect(lambda { Foo.new {} }).to raise_error(StandardError, 'BrowserCloseError')
+    expect { Foo.new {} }.to raise_error(StandardError, 'BrowserCloseError')
   end
 
   it 'should raise error inside block if both it and browser.close throws an error' do
     browser = stub_browser
     browser.expects(:close).raises(StandardError, 'BrowserCloseError')
     Taza::Browser.stubs(:create).returns(browser)
-    expect(lambda { Foo.new { |site| raise StandardError, 'innererror' } }).to raise_error(StandardError, 'innererror')
+    expect { Foo.new { |site| raise StandardError, 'innererror' } }.to raise_error(StandardError, 'innererror')
   end
 
   it 'should close a browser if block given' do
@@ -175,7 +175,7 @@ describe Taza::Site do
     browser.expects(:close).then(browser_state.is('off'))
     browser.expects(:doit).when(browser_state.is('on'))
     Taza::Site.before_browser_closes { |browser| browser.doit }
-    expect(lambda { Foo.new { |site| raise StandardError, 'innererror' } }).to raise_error(StandardError, 'innererror')
+    expect { Foo.new { |site| raise StandardError, 'innererror' } }.to raise_error(StandardError, 'innererror')
   end
 
   it 'should still close its browser if #before_browser_closes raises an exception' do
@@ -183,7 +183,7 @@ describe Taza::Site do
     Taza::Browser.stubs(:create).returns(browser)
     browser.expects(:close)
     Taza::Site.before_browser_closes { |browser| raise StandardError, 'foo error' }
-    expect(lambda { Foo.new {} }).to raise_error(StandardError, 'foo error')
+    expect { Foo.new {} }.to raise_error(StandardError, 'foo error')
   end
 
   it 'should not close a browser it did not make' do
@@ -198,7 +198,6 @@ describe Taza::Site do
     browser.expects(:close)
     Foo.new() {}
   end
-
 
   module Zoro
     class Zoro < ::Taza::Site
@@ -240,7 +239,7 @@ describe Taza::Site do
     f.baz(:another_module) do |baz|
       barzor = baz
     end
-    expect(lambda { barzor.other_element }).to raise_error(NoMethodError)
+    expect { barzor.other_element }.to raise_error(NoMethodError)
   end
 
   it 'should have a way to keep the browser instance open' do
@@ -256,6 +255,6 @@ describe Taza::Site do
     browser.expects(:close).never
     Taza::Browser.stubs(:create).returns(browser)
     Taza::Site.donot_close_browser
-    expect(lambda { Foo.new { |site| raise StandardError } }).to raise_error(StandardError)
+    expect { Foo.new { |site| raise StandardError } }.to raise_error(StandardError)
   end
 end

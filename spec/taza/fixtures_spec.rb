@@ -13,7 +13,7 @@ describe "Taza::Fixtures" do
   end
 
   it "should still raise method missing error" do
-    expect(lambda { zomgwtf(:first_example) }).to raise_error(NoMethodError)
+    expect{ zomgwtf(:first_example) }.to raise_error(NoMethodError)
   end
 
   # TODO: this test tests what is in entity's instance eval not happy with it being here
@@ -31,7 +31,7 @@ describe "Taza::Fixtures" do
   end
 
   it "should not be able to access fixtures in sub-folders if not included" do
-    expect(lambda { bars(:foo) }).to raise_error(NoMethodError)
+    expect{ bars(:foo) }.to raise_error(NoMethodError)
   end
 
   it "should template fixture files" do

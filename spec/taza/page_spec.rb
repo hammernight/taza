@@ -4,8 +4,9 @@ require 'taza/page'
 describe Taza::Page do
 
   class ElementAndFilterContextExample < Taza::Page
-    element(:sample_element) {browser}
+    element(:sample_element) { browser }
     filter(:sample_filter, :sample_element)
+
     def sample_filter
       browser
     end
@@ -14,6 +15,7 @@ describe Taza::Page do
   class RecursiveFilterExample < Taza::Page
     element(:foo) {}
     filter :sample_filter
+
     def sample_filter
       foo
       true
@@ -26,12 +28,12 @@ describe Taza::Page do
   end
 
   it "should execute an element's block with the params provided for its method" do
-    Taza::Page.element(:boo){|baz| baz}
+    Taza::Page.element(:boo) { |baz| baz }
     expect(Taza::Page.new.boo("rofl")).to eql 'rofl'
-    end
+  end
 
   it "element's name can not be nil" do
-    expect{ Taza::Page.element(nil){ } }.to raise_error(Taza::ElementError)
+    expect { Taza::Page.element(nil) {} }.to raise_error(Taza::ElementError)
   end
 
   it "should execute elements and filters in the context of the page instance" do
@@ -62,25 +64,25 @@ describe Taza::Page do
   end
 
   it "should filter all elements if element argument is not provided" do
-    expect(lambda { FilterAllElements.new.apple }).to raise_error(Taza::FilterError)
-    expect(lambda { FilterAllElements.new.foo }).to raise_error(Taza::FilterError)
+    expect { FilterAllElements.new.apple }.to raise_error(Taza::FilterError)
+    expect { FilterAllElements.new.foo }.to raise_error(Taza::FilterError)
   end
 
   it "should have empty elements on a new class" do
-    foo = Class::new(superclass=Taza::Page)
+    foo = Class::new(superclass = Taza::Page)
     expect(foo.elements).to_not be_nil
     expect(foo.elements).to be_empty
   end
 
   it "should have empty filters on a new class" do
-    foo = Class::new(superclass=Taza::Page)
+    foo = Class::new(superclass = Taza::Page)
     expect(foo.filters).to_not be_nil
     expect(foo.filters).to be_empty
   end
 
   class FilterAnElement < Taza::Page
     attr_accessor :called_element_method
-    element(:false_item) { @called_element_method = true}
+    element(:false_item) { @called_element_method = true }
     filter :false_filter, :false_item
 
     def false_filter
@@ -89,21 +91,21 @@ describe Taza::Page do
   end
 
   it "should raise a error if an elements is called and its filter returns false" do
-    expect(lambda { FilterAnElement.new.false_item }).to raise_error(Taza::FilterError)
+    expect { FilterAnElement.new.false_item }.to raise_error(Taza::FilterError)
   end
 
   it "should not call element block if filters fail" do
     page = FilterAnElement.new
-    expect(lambda { page.false_item }).to raise_error(Taza::FilterError)
+    expect { page.false_item }.to raise_error(Taza::FilterError)
     expect(page.called_element_method).to_not be true
   end
 
   it "should not allow more than one element descriptor with the same element name" do
-    expect(lambda{
-    class DuplicateElements < Taza::Page
-      element(:foo) { true }
-      element(:foo) { false }
-    end
-    }).to raise_error(Taza::ElementError)
+    expect {
+      class DuplicateElements < Taza::Page
+        element(:foo) { true }
+        element(:foo) { false }
+      end
+    }.to raise_error(Taza::ElementError)
   end
 end

@@ -8,7 +8,6 @@ require 'selenium-webdriver'
 
 RSpec.configure do |config|
   config.mock_with :mocha
-
   config.before(:each) do
     $0 = 'home'
     ARGV.clear
@@ -35,7 +34,7 @@ RSpec.configure do |config|
 end
 
 def null_device
-  File.exists?('/dev/null') ? '/dev/null' : 'NUL'
+  File.exist?('/dev/null') ? '/dev/null' : 'NUL'
 end
 
 # Must set before requiring generator libs.
