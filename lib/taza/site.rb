@@ -1,4 +1,3 @@
-
 module Taza
   # An abstraction of a website, but more really a container for a sites pages.
   #
@@ -49,7 +48,12 @@ module Taza
     #   :browser => a browser object to act on instead of creating one automatically
     #   :url => the url of where to start the site
     def initialize(params={},&block)
-      @module_name = self.class.module_parent.to_s
+      if self.class.respond_to?(:module_parent)
+        @module_name = self.class.module_parent.to_s
+      else
+        @module_name = self.class.parent.to_s
+      end
+
       @class_name  = self.class.to_s.split("::").last
       define_site_pages
       define_flows
