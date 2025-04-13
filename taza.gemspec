@@ -18,13 +18,13 @@ Gem::Specification.new do |s|
   s.executables           = `git ls-files -- bin/*`.split("\n").map { |f| File.basename(f) }
   s.require_paths         = ["lib"]
 
-  s.add_runtime_dependency(%q<user-choices>, ["~> 1.1.6.1"])
-  s.add_runtime_dependency(%q<Selenium>, ["~> 1.1.14"])
-  s.add_runtime_dependency(%q<watir>, ["~> 7.3"])
+  s.add_runtime_dependency(%q<user-choices>, ["~> 1.1.0"])
+  s.add_runtime_dependency(%q<Selenium>, ["~> 1.1.0"])
+  s.add_runtime_dependency(%q<watir>, ["~> 7.3.0"])
   s.add_runtime_dependency(%q<activesupport>, [">= 7.0.0"])
-  s.add_runtime_dependency(%q<thor>, [">= 1.3.2"])
+  s.add_runtime_dependency(%q<thor>, ["~> 1.3.0"])
 
-  s.add_development_dependency(%q<mocha>, ["~> 2.7"])
-  s.add_development_dependency(%q<rake>, ["~> 13.2"])
-  s.add_development_dependency(%q<rspec>, ["~> 3.13"])
+  s.add_development_dependency(%q<mocha>, ["~> 2.7.0"])
+  s.add_development_dependency(%q<rake>, ["~> 13.2.0"])
+  s.add_development_dependency(%q<rspec>, ["~> 3.13.0"])
 end
