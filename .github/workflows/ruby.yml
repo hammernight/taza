@@ -10,20 +10,20 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        ruby: [3.0.7, 3.1, 3.2, 3.3, 3.4, jruby-9.4]
+        ruby: ['3.0', '3.1', '3.2', '3.3', '3.4', 'jruby-9.4']
         gemfile:
           - Gemfile.activesupport-7.0
           - Gemfile.activesupport-7.1
           - Gemfile.activesupport-7.2
           - Gemfile.activesupport-8.0
         exclude:
-          - ruby: 3.0.7
+          - ruby: '3.0'
             gemfile: Gemfile.activesupport-8.0
-          - ruby: 3.0.7
+          - ruby: '3.0'
             gemfile: Gemfile.activesupport-7.2
-          - ruby: 3.1
+          - ruby: '3.1'
             gemfile: Gemfile.activesupport-8.0
-          - ruby: jruby-9.4
+          - ruby: 'jruby-9.4'
             gemfile: Gemfile.activesupport-8.0
 
     continue-on-error: ${{ matrix.continue-on-error || false }}
