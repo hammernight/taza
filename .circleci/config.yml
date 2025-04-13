@@ -1,63 +1,98 @@
-language: ruby
-before_install: gem update --remote bundler
-cache: bundler
-rvm:
-  - 2.0
-  - 2.1
-  - 2.2
-  - 2.3
-  - 2.4
-  - 2.5
-  - ruby-head
-  - jruby-9
-gemfile:
-  - Gemfile.activesupport-4.0
-  - Gemfile.activesupport-4.1
-  - Gemfile.activesupport-4.2
-  - Gemfile.activesupport-5.0
-  - Gemfile.activesupport-5.1
-matrix:
-  allow_failures:
-    - rvm: ruby-head
-  exclude:
-    - rvm: 2.0
-      gemfile: Gemfile.activesupport-5.0
-    - rvm: 2.0
-      gemfile: Gemfile.activesupport-5.1
-    - rvm: 2.1
-      gemfile: Gemfile.activesupport-5.0
-    - rvm: 2.1
-      gemfile: Gemfile.activesupport-5.1
-    - rvm: 2.2
-      gemfile: Gemfile.activesupport-5.0
-    - rvm: 2.2
-      gemfile: Gemfile.activesupport-5.1
-    - rvm: jruby-9
-      gemfile: Gemfile.activesupport-5.0
-    - rvm: jruby-9
-      gemfile: Gemfile.activesupport-5.1
-    - rvm: 2.4
-      gemfile: Gemfile.activesupport-4.0
-    - rvm: ruby-head
-      gemfile: Gemfile.activesupport-4.0
-    - rvm: 2.4
-      gemfile: Gemfile.activesupport-4.1
-    - rvm: 2.5
-      gemfile: Gemfile.activesupport-4.0
-    - rvm: 2.5
-      gemfile: Gemfile.activesupport-4.1
-    - rvm: ruby-head
-      gemfile: Gemfile.activesupport-4.1
-    - rvm: 2.5
-      gemfile: Gemfile.activesupport-4.2
-    - rvm: ruby-head
-      gemfile: Gemfile.activesupport-4.0
-    - rvm: ruby-head
-      gemfile: Gemfile.activesupport-4.1
-    - rvm: ruby-head
-      gemfile: Gemfile.activesupport-4.2
-  fast_finish: true
-notifications:
-  email:
-    - pnascimento@gmail.com
-    - oriekenjr@gmail.com
+version: 2.1
+
+executors:
+  ruby-executor:
+    parameters:
+      ruby-version:
+        type: string
+    docker:
+      - image: cimg/ruby:<< parameters.ruby-version >>
+
+jobs:
+  test:
+    parameters:
+      ruby-version:
+        type: string
+      gemfile:
+        type: string
+    executor:
+      name: ruby-executor
+      ruby-version: << parameters.ruby-version >>
+    environment:
+      BUNDLE_GEMFILE: << parameters.gemfile >>
+    steps:
+      - checkout
+      - run:
+          name: Update Bundler
+          command: gem update --remote bundler
+      - restore_cache:
+          keys:
+            - bundler-<< parameters.ruby-version >>-<< parameters.gemfile >>-{{ checksum "<< parameters.gemfile >>" }}
+      - run:
+          name: Bundle Install
+          command: bundle install
+      - save_cache:
+          paths:
+            - vendor/bundle
+          key: bundler-<< parameters.ruby-version >>-<< parameters.gemfile >>-{{ checksum "<< parameters.gemfile >>" }}
+      - run:
+          name: Run Tests
+          command: bundle exec rake
+
+workflows:
+  version: 2
+  test-all:
+    jobs:
+      # Matrix starts here
+      - test:
+          matrix:
+            parameters:
+              ruby-version:
+                - "2.0.0"
+                - "2.1.10"
+                - "2.2.10"
+                - "2.3.8"
+                - "2.4.10"
+                - "2.5.9"
+                - "ruby"  # latest ruby head
+                - "jruby-9.3"
+              gemfile:
+                - Gemfile.activesupport-4.0
+                - Gemfile.activesupport-4.1
+                - Gemfile.activesupport-4.2
+                - Gemfile.activesupport-5.0
+                - Gemfile.activesupport-5.1
+            exclude:
+              # Matches Travis' excluded matrix
+              - ruby-version: "2.0.0"
+                gemfile: Gemfile.activesupport-5.0
+              - ruby-version: "2.0.0"
+                gemfile: Gemfile.activesupport-5.1
+              - ruby-version: "2.1.10"
+                gemfile: Gemfile.activesupport-5.0
+              - ruby-version: "2.1.10"
+                gemfile: Gemfile.activesupport-5.1
+              - ruby-version: "2.2.10"
+                gemfile: Gemfile.activesupport-5.0
+              - ruby-version: "2.2.10"
+                gemfile: Gemfile.activesupport-5.1
+              - ruby-version: "jruby-9.3"
+                gemfile: Gemfile.activesupport-5.0
+              - ruby-version: "jruby-9.3"
+                gemfile: Gemfile.activesupport-5.1
+              - ruby-version: "2.4.10"
+                gemfile: Gemfile.activesupport-4.0
+              - ruby-version: "2.4.10"
+                gemfile: Gemfile.activesupport-4.1
+              - ruby-version: "2.5.9"
+                gemfile: Gemfile.activesupport-4.0
+              - ruby-version: "2.5.9"
+                gemfile: Gemfile.activesupport-4.1
+              - ruby-version: "2.5.9"
+                gemfile: Gemfile.activesupport-4.2
+              - ruby-version: "ruby"
+                gemfile: Gemfile.activesupport-4.0
+              - ruby-version: "ruby"
+                gemfile: Gemfile.activesupport-4.1
+              - ruby-version: "ruby"
+                gemfile: Gemfile.activesupport-4.2
