@@ -6,11 +6,11 @@ on:
 
 jobs:
   test:
-    runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
-        ruby: ['3.0', '3.1', '3.2', '3.3', '3.4', 'jruby-9.4']
+        os: [ubuntu-latest, macos-latest]
+        ruby: ['3.0', '3.1', '3.2', '3.3', head, jruby-9.4, jruby-head]
         gemfile:
           - Gemfile.activesupport-7.0
           - Gemfile.activesupport-7.1
@@ -25,14 +25,14 @@ jobs:
             gemfile: Gemfile.activesupport-8.0
           - ruby: 'jruby-9.4'
             gemfile: Gemfile.activesupport-8.0
-
+    runs-on: ${{ matrix.os }}
     continue-on-error: ${{ matrix.continue-on-error || false }}
 
     env:
       BUNDLE_GEMFILE: ${{ matrix.gemfile }}
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
