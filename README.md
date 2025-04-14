@@ -55,7 +55,7 @@ That will generate an RSpec HTML report at artifacts/functional/google/index.htm
 
 ## REQUIREMENTS:
 
-  * Ruby >= 2.0.0
+  * Ruby >= 3.0.0
   * A browser.
 
 ## INSTALL:
