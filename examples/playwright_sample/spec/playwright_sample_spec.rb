@@ -2,7 +2,7 @@ require 'spec_helper'
 
 RSpec.describe 'Playwright + Taza (example)', :integration do
   it 'navigates and finds an element via unified API' do
-    session = Taza::Browser.create(driver: :playwright, browser: :chromium, headless: false)
+    session = Taza::Browser.create(driver: :playwright, browser: :chromium, headless: true)
     begin
       url = 'https://rieken-portfolio.netlify.app/'
       session.goto(url)
