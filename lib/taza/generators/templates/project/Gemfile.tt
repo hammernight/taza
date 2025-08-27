@@ -1,5 +1,23 @@
 source 'https://rubygems.org'
 
+# Core framework
 gem 'taza'
 
-#Add any gems you might need to use in your project here.
+# Driver library (pick one; generated based on your choice)
+<% drv = driver.gsub('-', '_') %>
+<% if drv == 'watir' %>
+gem 'watir'
+<% elsif drv == 'selenium_webdriver' %>
+gem 'selenium-webdriver'
+<% elsif drv == 'playwright' %>
+gem 'playwright-ruby-client'
+<% else %>
+# gem 'watir'
+# gem 'selenium-webdriver'
+# gem 'playwright-ruby-client'
+<% end %>
+
+# For Playwright, also require the adapter in your test setup:
+#   require 'taza/drivers/playwright'
+
+# Add any other gems you might need to use in your project here.

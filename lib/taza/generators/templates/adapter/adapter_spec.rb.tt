@@ -1,0 +1,18 @@
+require 'spec_helper'
+
+# Example adapter spec using the shared contract
+# Replace :<%= adapter_key %> with your adapter and add any tool-specific stubs as needed.
+
+describe '<%= class_name %> adapter' do
+  before do
+    # If your adapter requires its gem, you may stub Kernel.require here in isolation tests.
+    # Kernel.stubs(:require).with('your-gem-here').returns(true)
+  end
+
+  it_behaves_like 'a taza browser adapter' do
+    let(:build_session) do
+      -> { Taza::Browser.create(driver: :<%= adapter_key %>, browser: :chrome) }
+    end
+  end
+end
+

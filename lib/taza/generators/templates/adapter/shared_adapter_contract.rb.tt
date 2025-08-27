@@ -1,0 +1,29 @@
+# Shared adapter contract examples for Taza adapters
+# Usage in your adapter spec:
+#
+#   require 'spec_helper'
+#   require 'taza/drivers/<your_adapter>'
+#
+#   RSpec.describe 'Your adapter' do
+#     it_behaves_like 'a taza browser adapter' do
+#       let(:build_session) { -> { Taza::Browser.create(driver: :<your_adapter>, browser: :chrome) } }
+#     end
+#   end
+#
+# For more in-depth checks, stub your underlying client and assert that goto and close
+# are translated correctly, mirroring spec/taza/adapter_contract_spec.rb patterns.
+
+RSpec.shared_examples 'a taza browser adapter' do
+  it 'exposes goto and close on the session' do
+    session = build_session.call
+    expect(session).to respond_to(:goto)
+    expect(session).to respond_to(:close)
+  end
+
+  it 'forwards unknown methods to the raw driver when supported' do
+    session = build_session.call
+    # This expectation is informational; some adapters may not implement :title.
+    expect(session.respond_to?(:title)).to eq(session.raw.respond_to?(:title))
+  end
+end
+
