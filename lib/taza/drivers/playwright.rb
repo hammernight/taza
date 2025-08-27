@@ -23,12 +23,16 @@ module Taza
           []
         end
 
-        playwright = if create_params.any? { |(kind, name)| [:key, :keyreq, :keyrest].include?(kind) }
+        runtime = if create_params.any? { |(kind, _name)| [:key, :keyreq, :keyrest].include?(kind) }
           ::Playwright.create(playwright_cli_executable_path: cli_path)
         else
           ::Playwright.create
         end
-        engine = playwright.public_send(engine_name)
+
+        # Newer versions return a Playwright::Execution with #playwright accessor for BrowserTypes.
+        base = runtime.respond_to?(:playwright) ? runtime.playwright : runtime
+
+        engine = base.public_send(engine_name)
         browser = engine.launch(headless: headless)
         context = browser.new_context
         page = context.new_page
@@ -43,36 +47,50 @@ module Taza
               begin
                 browser.close
               ensure
-                playwright.stop
+                # Stop the runtime appropriately
+                if runtime.respond_to?(:stop)
+                  runtime.stop
+                elsif base.respond_to?(:stop)
+                  base.stop
+                end
               end
             end
           }
         )
 
+        # Helper to register events across client versions (two-arg vs block API)
+        register = lambda do |emitter, event, &blk|
+          begin
+            # Try two-arg style first (newer clients)
+            emitter.on(event, blk)
+          rescue ArgumentError
+            # Fallback to block style (older clients / fakes)
+            emitter.on(event, &blk)
+          rescue NoMethodError
+            # ignore for mocks that don't implement .on
+          end
+        end
+
         # Optional event bridging
         begin
-          # Console messages
-          page.on(:console) do |message|
+          register.call(page, :console) { |message|
             Taza::Events.publish(:console, { session: session, message: message })
-          end
+          }
         rescue NoMethodError
-          # page.on might not exist on mocks; ignore
         end
 
         begin
-          # Dialog open
-          page.on(:dialog) do |dialog|
+          register.call(page, :dialog) { |dialog|
             Taza::Events.publish(:dialog_open, { session: session, dialog: dialog })
-          end
+          }
         rescue NoMethodError
         end
 
         begin
-          # Network request/response
-          context.on(:request) do |request|
+          register.call(context, :request) do |request|
             Taza::Events.publish(:request, { session: session, request: request })
           end
-          context.on(:response) do |response|
+          register.call(context, :response) do |response|
             Taza::Events.publish(:response, { session: session, response: response })
           end
         rescue NoMethodError

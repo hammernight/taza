@@ -36,7 +36,7 @@
   - cd examples/playwright_sample && bundle install && bundle exec rspec -fd
 
 ## CI for examples
-- See .github/workflows/examples.yml.
+- See .github/workflows/ruby.yml.
 - The Playwright job installs Node.js and runs `npx playwright install --with-deps` before executing the example specs.
 
 ## DESCRIPTION:

@@ -1,58 +1,17 @@
-name: Examples
+name: Examples (manual)
 
 on:
-  push:
-    branches: [ main, master ]
-  pull_request:
+  workflow_dispatch:
 
 jobs:
   selenium_example:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Setup Ruby
-        uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: '3.2'
-          bundler-cache: true
-
-      - name: Run Selenium example specs
-        working-directory: examples/selenium_sample
-        run: |
-          bundle install --jobs 4 --retry 3
-          bundle exec rspec --format documentation
+      - name: This workflow is superseded by ruby.yml
+        run: echo "Examples are executed in .github/workflows/ruby.yml. Use this workflow only for manual runs."
 
   playwright_example:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Setup Ruby
-        uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: '3.2'
-          bundler-cache: true
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-
-      - name: Install Playwright CLI and browsers
-        run: |
-          npx playwright install --with-deps
-
-      - name: Run Playwright example specs
-        working-directory: examples/playwright_sample
-        env:
-          # Optional: override CLI path if needed; default in Taza is 'npx playwright'
-          # PLAYWRIGHT_CLI_EXECUTABLE_PATH: 'npx playwright'
-          # Run headless for CI by default
-          HEADLESS: 'true'
-        run: |
-          bundle install --jobs 4 --retry 3
-          bundle exec rspec --format documentation
-
+      - name: This workflow is superseded by ruby.yml
+        run: echo "Examples are executed in .github/workflows/ruby.yml. Use this workflow only for manual runs."

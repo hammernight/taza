@@ -5,7 +5,7 @@ RSpec.describe 'Selenium WebDriver + Taza (example)', :integration do
     # Make the example robust on CI by avoiding launching a real browser.
     # We stub selenium-webdriver when running in CI to keep this smoke test hermetic.
     if ENV['CI']
-      Kernel.stubs(:require).with('selenium-webdriver').returns(true)
+      allow(Kernel).to receive(:require).with('selenium-webdriver').and_return(true)
       # Minimal Selenium shim
       module ::Selenium; end unless defined?(::Selenium)
       module ::Selenium::WebDriver; end unless defined?(::Selenium::WebDriver)
@@ -19,6 +19,7 @@ RSpec.describe 'Selenium WebDriver + Taza (example)', :integration do
         def find_element(_by, _value)
           FakeElement.new
         end
+        def quit; end
       end
       class FakeElement
         def displayed?; true; end
@@ -27,7 +28,7 @@ RSpec.describe 'Selenium WebDriver + Taza (example)', :integration do
         def clear; end
       end
 
-      ::Selenium::WebDriver.singleton_class.stubs(:for).with(:chrome).returns(FakeRaw.new)
+      allow(::Selenium::WebDriver).to receive(:for).with(:chrome).and_return(FakeRaw.new)
     end
 
     session = Taza::Browser.create(driver: :selenium_webdriver, browser: :chrome)
@@ -41,4 +42,3 @@ RSpec.describe 'Selenium WebDriver + Taza (example)', :integration do
     end
   end
 end
-

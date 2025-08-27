@@ -89,14 +89,11 @@ jobs:
 
       - name: Install Playwright CLI and browsers
         run: |
+          npm install -g playwright@latest
           npx playwright install --with-deps
 
       - name: Install example dependencies
         run: bundle install
-        working-directory: examples/playwright_sample
-
-      - name: Install Playwright browser (best-effort)
-        run: npx playwright install chromium --with-deps || true
         working-directory: examples/playwright_sample
 
       - name: Run example specs
