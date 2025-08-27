@@ -26,6 +26,19 @@
   - Setup: `cd examples/custom_adapter && bundle install`
   - Run: `bundle exec rspec -fd`
 
+## Running examples locally
+- Selenium example:
+  - cd examples/selenium_sample && bundle install && bundle exec rspec -fd
+- Playwright example:
+  - Requires Node.js. Install Playwright CLI and browsers first:
+    - npx playwright install
+    - or use npm with the gem-compatible version and then ./node_modules/.bin/playwright install
+  - cd examples/playwright_sample && bundle install && bundle exec rspec -fd
+
+## CI for examples
+- See .github/workflows/examples.yml.
+- The Playwright job installs Node.js and runs `npx playwright install --with-deps` before executing the example specs.
+
 ## DESCRIPTION:
 
 Taza is meant to make acceptance testing more sane for developers(or QA where applicable) and customers.

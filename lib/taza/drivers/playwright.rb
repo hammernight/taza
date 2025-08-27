@@ -11,7 +11,23 @@ module Taza
         engine_name = (params[:browser] || :chromium).to_sym
         headless = params.key?(:headless) ? params[:headless] : true
 
-        playwright = ::Playwright.create
+        # Resolve the Playwright CLI path if needed by the client library.
+        # Priority: explicit param -> ENV -> default to 'npx playwright'
+        cli_path = params[:playwright_cli_executable_path] || ENV['PLAYWRIGHT_CLI_EXECUTABLE_PATH'] || ENV['PLAYWRIGHT_CLI'] || 'npx playwright'
+
+        # Some versions of playwright-ruby-client require a keyword, others accept none.
+        # Introspect the create signature to decide.
+        create_params = begin
+          ::Playwright.method(:create).parameters
+        rescue NameError
+          []
+        end
+
+        playwright = if create_params.any? { |(kind, name)| [:key, :keyreq, :keyrest].include?(kind) }
+          ::Playwright.create(playwright_cli_executable_path: cli_path)
+        else
+          ::Playwright.create
+        end
         engine = playwright.public_send(engine_name)
         browser = engine.launch(headless: headless)
         context = browser.new_context
