@@ -15,8 +15,8 @@ Done:
 taza 
  - get rid of all the dumb ^M windows line endings
  - url resolving
- - ability to change yaml for a site
- - ability to run integration tests for just a site
+ - ability to change yaml for a site (done: Settings.override/clear_overrides!)
+ - ability to run integration tests for just a site (done: SITE env filter in Rake spec tasks)
  - clean all the config tests
  - add test/spec support for generators
  - add test/spec support for fixtures
@@ -33,6 +33,6 @@ taza
 - Docs: link BROWSERS.md and ADDING_AN_ADAPTER.md from README (done), keep them updated as APIs evolve.
 
 # Future polish (nice-to-haves)
-- CONTRIBUTING.md with adapter checklist and local test instructions.
+- CONTRIBUTING.md with adapter checklist and local test instructions. (done)
 - CI: expand example smoke to macOS, cache Playwright browsers to speed runs.
-- More adapter samples (Selenium/WebDriver + unified elements demo).
+- More adapter samples (Selenium/WebDriver + unified elements demo). (done)

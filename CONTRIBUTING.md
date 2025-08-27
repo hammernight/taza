@@ -48,6 +48,29 @@ bundle install
 bundle exec rspec -fd
 ```
 
+## Running and filtering tests
+
+Rake tasks (by site / tag)
+- You can filter specs by site folder and RSpec tags via ENV:
+
+```bash
+# run only specs under spec/<any>/**/<site_name>/**
+SITE=foo_site bundle exec rake spec
+
+# run only specs tagged with @smoke (RSpec metadata :smoke)
+TAGS=smoke bundle exec rake spec
+
+# combine: run smoke tests for a given site
+SITE=foo_site TAGS=smoke bundle exec rake spec
+```
+
+RSpec CLI (direct)
+- You can also use rspec patterns and tags directly:
+
+```bash
+bundle exec rspec spec/sites/foo_site -t smoke -fd
+```
+
 ## Adding or updating an adapter (checklist)
 
 Minimum contract

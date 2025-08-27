@@ -1,7 +1,7 @@
 # taza [![Gem Version](https://badge.fury.io/rb/taza.svg)](https://badge.fury.io/rb/taza)
 
 ## Build Status
-###### Master 
+###### Master
 
 ![Build Status](https://github.com/hammernight/taza/actions/workflows/ruby.yml/badge.svg)
 
