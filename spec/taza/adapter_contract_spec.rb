@@ -51,5 +51,30 @@ describe 'Built-in providers adapter contract' do
         Object.send(:remove_const, :Selenium)
       end
     end
+
+    it 'forwards options to Selenium::WebDriver.for when provided' do
+      Kernel.stubs(:require).with('selenium-webdriver').returns(true)
+
+      raw = mock('selenium-driver')
+      ::Object.const_set(:Selenium, Module.new) unless defined?(::Selenium)
+      ::Selenium.const_set(:WebDriver, Module.new) unless ::Selenium.const_defined?(:WebDriver)
+
+      chrome_options = stub('chrome-options')
+
+      ::Selenium::WebDriver.expects(:for).with do |browser_sym, opts|
+        browser_sym == :chrome && opts.is_a?(Hash) && opts[:options] == chrome_options
+      end.returns(raw)
+
+      session = Taza::Browser.create(driver: :selenium_webdriver, browser: :chrome, options: chrome_options)
+      expect(session).to be_a(Taza::Browser::Session)
+
+      raw.expects(:quit)
+      session.close
+    ensure
+      if Object.const_defined?(:Selenium)
+        Selenium.send(:remove_const, :WebDriver) if Selenium.const_defined?(:WebDriver)
+        Object.send(:remove_const, :Selenium)
+      end
+    end
   end
 end

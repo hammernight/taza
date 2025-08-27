@@ -223,7 +223,13 @@ module Taza
     # Built-in provider: Selenium WebDriver -> Session
     register(:selenium_webdriver) do |params|
       require 'selenium-webdriver'
-      raw = ::Selenium::WebDriver.for(params[:browser].to_sym)
+      browser_sym = params[:browser].to_sym
+      options = params[:options]
+      raw = if options
+        ::Selenium::WebDriver.for(browser_sym, options: options)
+      else
+        ::Selenium::WebDriver.for(browser_sym)
+      end
       Session.new(raw,
         goto_proc: ->(url) { raw.navigate.to(url) },
         close_proc: -> { raw.quit }
