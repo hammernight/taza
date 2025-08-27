@@ -47,3 +47,77 @@ jobs:
 
       - name: Run tests
         run: bundle exec rake
+
+  example_custom_adapter:
+    name: Examples - Custom Adapter (smoke)
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.2'
+          bundler-cache: true
+
+      - name: Install example dependencies
+        run: bundle install
+        working-directory: examples/custom_adapter
+
+      - name: Run example specs
+        run: bundle exec rspec -fd --no-color
+        working-directory: examples/custom_adapter
+
+  example_playwright:
+    name: Examples - Playwright (smoke)
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.2'
+          bundler-cache: true
+
+      - name: Set up Node (for Playwright CLI)
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Install example dependencies
+        run: bundle install
+        working-directory: examples/playwright_sample
+
+      - name: Install Playwright browser (best-effort)
+        run: npx playwright install chromium --with-deps || true
+        working-directory: examples/playwright_sample
+
+      - name: Run example specs
+        run: bundle exec rspec -fd --no-color
+        working-directory: examples/playwright_sample
+
+  example_selenium:
+    name: Examples - Selenium (smoke)
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.2'
+          bundler-cache: true
+
+      - name: Install example dependencies
+        run: bundle install
+        working-directory: examples/selenium_sample
+
+      - name: Run example specs (headless)
+        env:
+          CI: '1'
+        run: bundle exec rspec -fd --no-color
+        working-directory: examples/selenium_sample

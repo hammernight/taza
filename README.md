@@ -13,6 +13,18 @@
 - Browsers and adapters: see BROWSERS.md
 - Error normalization: see BROWSERS.md#error-normalization
 - Adding a new adapter: see ADDING_AN_ADAPTER.md
+- Contributing guide: see CONTRIBUTING.md
+
+## Examples
+- Playwright sample: examples/playwright_sample
+  - Setup: `cd examples/playwright_sample && bundle install`
+  - Run: `bundle exec rspec -fd`
+- Selenium/WebDriver sample: examples/selenium_sample
+  - Setup: `cd examples/selenium_sample && bundle install`
+  - Run: `bundle exec rspec -fd`
+- Custom adapter sample: examples/custom_adapter
+  - Setup: `cd examples/custom_adapter && bundle install`
+  - Run: `bundle exec rspec -fd`
 
 ## DESCRIPTION:
 

@@ -94,7 +94,19 @@ Events
   - :before_navigate, payload: { session:, url: }
   - :after_navigate, payload: { session:, url: }
   - :session_closed, payload: { session: }
+- Adapter event bridging (optional, when supported by the tool):
+  - :console, payload: { session:, message }
+  - :dialog_open, payload: { session:, dialog }
+  - :request, payload: { session:, request }
+  - :response, payload: { session:, response }
 - Subscribe with Taza::Events.subscribe(:event) { |payload| ... }
+
+Example
+```ruby
+sub = Taza::Events.subscribe(:console) { |p| puts "[console] #{p[:message].to_s}" }
+# ... run steps ...
+Taza::Events.unsubscribe(:console, sub)
+```
 
 Accessing the native driver
 - Session forwards unknown methods to the underlying native object, so existing code continues to work.
@@ -139,4 +151,33 @@ end
 expect {
   site.some_page.missing_button.click
 }.to raise_error(Taza::Errors::ElementNotFound)
+```
+
+## Unified Element API (optional)
+- You can declare page elements using driver-agnostic locators. Taza wraps the native element with a small, consistent API while forwarding unknown calls.
+- Usage in a page class:
+
+```ruby
+class HomePage < Taza::Page
+  element(:search_input, css: '#search')
+  element(:submit_button, xpath: "//button[@type='submit']")
+end
+
+home = HomePage.new
+home.browser = my_session   # Taza::Browser::Session
+home.search_input.fill('hello')
+home.submit_button.click
+```
+
+- Supported locators: css, xpath, id, name, link_text (mapping per driver)
+  - Watir: raw.element(**locator)
+  - Selenium: raw.find_element(by, value)
+  - Playwright: raw.locator(selector) (falls back to query_selector)
+- Wrapper methods provided by Taza::Elements::Element:
+  - click, text, visible?/present?, fill/set, exist?, wait_for_visible(timeout:, interval:)
+  - Unknown methods forward to the underlying native element for maximum compatibility.
+- You can still define elements using blocks for full control:
+
+```ruby
+element(:avatar) { browser.img(id: 'avatar') }
 ```

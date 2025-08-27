@@ -27,7 +27,12 @@ taza
 - Optional plugin discovery: auto-require gems exposing `taza/drivers/*.rb` (keep explicit require supported). (done: ENV TAZA_AUTOLOAD_DRIVERS=1; tests in spec/taza/plugin_discovery_spec.rb)
 - Option validation: adapter.option_schema and central validation/coercion for common keys (driver, browser, headless). (done: Browser.coerce_options/validate_options!, tests in spec/taza/browser_options_spec.rb)
 - Error normalization: map native errors to Taza::Errors; document rescue patterns. (done: Session normalization via Browser.normalize_exception; tests in spec/taza/error_normalization_spec.rb; docs in BROWSERS.md#error-normalization)
-- Event bridging: optional adapter hooks for console, dialog, network events -> Taza::Events.
-- Unified element API (thin facade) as an opt-in; keep raw forwarding as escape hatch.
-- Examples: sample Playwright project and minimal custom adapter example.
+- Event bridging: optional adapter hooks for console, dialog, network events -> Taza::Events. (done: Playwright adapter bridges :console, :dialog_open, :request, :response; tests in spec/taza/playwright_events_spec.rb)
+- Unified element API (thin facade) as an opt-in; keep raw forwarding as escape hatch. (done: lib/taza/elements.rb; Page DSL locator sugar; tests in spec/taza/unified_elements_spec.rb; docs in BROWSERS.md#unified-element-api-optional)
+- Examples: sample Playwright project and minimal custom adapter example. (done: examples/playwright_sample and examples/custom_adapter; CI smoke jobs)
 - Docs: link BROWSERS.md and ADDING_AN_ADAPTER.md from README (done), keep them updated as APIs evolve.
+
+# Future polish (nice-to-haves)
+- CONTRIBUTING.md with adapter checklist and local test instructions.
+- CI: expand example smoke to macOS, cache Playwright browsers to speed runs.
+- More adapter samples (Selenium/WebDriver + unified elements demo).
