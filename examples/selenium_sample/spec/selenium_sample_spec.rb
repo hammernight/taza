@@ -28,10 +28,11 @@ RSpec.describe 'Selenium WebDriver + Taza (example)', :integration do
         def clear; end
       end
 
-      allow(::Selenium::WebDriver).to receive(:for).with(:chrome).and_return(FakeRaw.new)
+      # Intercept any browser and any args to ensure no real session is created in CI.
+      allow(::Selenium::WebDriver).to receive(:for).and_return(FakeRaw.new)
     end
 
-    session = Taza::Browser.create(driver: :selenium_webdriver, browser: :chrome)
+    session = Taza::Browser.create(driver: :selenium_webdriver, browser: :firefox)
     begin
       session.goto('https://rieken-portfolio.netlify.app/')
       el = Taza::Elements.find(session, css: 'body')
