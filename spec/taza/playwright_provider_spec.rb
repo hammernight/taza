@@ -12,6 +12,10 @@ describe 'Playwright provider' do
     engine = mock('engine')
     playwright_runtime = mock('playwright_runtime')
 
+    # Allow event bridging hooks to be registered without interfering with expectations
+    page.stubs(:on)
+    context.stubs(:on)
+
     # Expectations for building the page
     ::Object.const_set(:Playwright, Module.new) unless defined?(::Playwright)
     ::Playwright.singleton_class.send(:define_method, :create) { playwright_runtime }

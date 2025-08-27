@@ -17,7 +17,7 @@ module Taza
         context = browser.new_context
         page = context.new_page
 
-        Taza::Browser::Session.new(
+        session = Taza::Browser::Session.new(
           page,
           goto_proc: ->(url) { page.goto(url) },
           close_proc: -> {
@@ -32,6 +32,37 @@ module Taza
             end
           }
         )
+
+        # Optional event bridging
+        begin
+          # Console messages
+          page.on(:console) do |message|
+            Taza::Events.publish(:console, { session: session, message: message })
+          end
+        rescue NoMethodError
+          # page.on might not exist on mocks; ignore
+        end
+
+        begin
+          # Dialog open
+          page.on(:dialog) do |dialog|
+            Taza::Events.publish(:dialog_open, { session: session, dialog: dialog })
+          end
+        rescue NoMethodError
+        end
+
+        begin
+          # Network request/response
+          context.on(:request) do |request|
+            Taza::Events.publish(:request, { session: session, request: request })
+          end
+          context.on(:response) do |response|
+            Taza::Events.publish(:response, { session: session, response: response })
+          end
+        rescue NoMethodError
+        end
+
+        session
       end
     end
   end

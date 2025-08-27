@@ -9,6 +9,7 @@ require 'taza/settings'
 require 'taza/flow'
 require 'taza/entity'
 require 'taza/fixtures'
+require 'taza/elements'
 require 'formatters/failing_examples_formatter'
 
 #generators
