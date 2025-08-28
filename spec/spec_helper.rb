@@ -3,8 +3,10 @@ require 'bundler/setup'
 require 'mocha'
 require 'taza'
 require 'thor'
-require 'watir'
-require 'selenium-webdriver'
+require 'tmpdir'
+
+# Centralized test URL used across browser specs
+TEST_URL = 'https://rieken-portfolio.netlify.app/'
 
 RSpec.configure do |config|
   config.mock_with :mocha

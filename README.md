@@ -1,13 +1,43 @@
 # taza [![Gem Version](https://badge.fury.io/rb/taza.svg)](https://badge.fury.io/rb/taza)
 
 ## Build Status
-###### Master 
+###### Master
 
 ![Build Status](https://github.com/hammernight/taza/actions/workflows/ruby.yml/badge.svg)
 
 * https://github.com/hammernight/taza
 * Wiki: http://github.com/scudco/taza/wikis
 * http://hammernight.github.io/taza/
+
+## Documentation
+- Browsers and adapters: see BROWSERS.md
+- Error normalization: see BROWSERS.md#error-normalization
+- Adding a new adapter: see ADDING_AN_ADAPTER.md
+- Contributing guide: see CONTRIBUTING.md
+
+## Examples
+- Playwright sample: examples/playwright_sample
+  - Setup: `cd examples/playwright_sample && bundle install`
+  - Run: `bundle exec rspec -fd`
+- Selenium/WebDriver sample: examples/selenium_sample
+  - Setup: `cd examples/selenium_sample && bundle install`
+  - Run: `bundle exec rspec -fd`
+- Custom adapter sample: examples/custom_adapter
+  - Setup: `cd examples/custom_adapter && bundle install`
+  - Run: `bundle exec rspec -fd`
+
+## Running examples locally
+- Selenium example:
+  - cd examples/selenium_sample && bundle install && bundle exec rspec -fd
+- Playwright example:
+  - Requires Node.js. Install Playwright CLI and browsers first:
+    - npx playwright install
+    - or use npm with the gem-compatible version and then ./node_modules/.bin/playwright install
+  - cd examples/playwright_sample && bundle install && bundle exec rspec -fd
+
+## CI for examples
+- See .github/workflows/ruby.yml.
+- The Playwright job installs Node.js and runs `npx playwright install --with-deps` before executing the example specs.
 
 ## DESCRIPTION:
 
@@ -22,6 +52,8 @@ Taza is meant to make acceptance testing more sane for developers(or QA where ap
 * Taza automatically creates and cleans up the browser for each site just like a File block
 * Manage tests by tags
 * Cross-site testing
+* Pluggable browser adapters (watir, selenium-webdriver, playwright, or your own)
+* Generator for new adapters: `taza adapter <name>`
 
 ## ISSUES:
 
@@ -70,7 +102,7 @@ Copyright (c) 2008 Charley Baker
 
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the
-'Software'), to deal in the Software without restriction, including
+' Software'), to deal in the Software without restriction, including
 without limitation the rights to use, copy, modify, merge, publish,
 distribute, sublicense, and/or sell copies of the Software, and to
 permit persons to whom the Software is furnished to do so, subject to

@@ -2,11 +2,14 @@ require 'active_support/all'
 require 'taza/version'
 require 'taza/page'
 require 'taza/site'
+require 'taza/errors'
+require 'taza/events'
 require 'taza/browser'
 require 'taza/settings'
 require 'taza/flow'
 require 'taza/entity'
 require 'taza/fixtures'
+require 'taza/elements'
 require 'formatters/failing_examples_formatter'
 
 #generators
@@ -15,6 +18,7 @@ require_relative 'taza/generators/site_generator'
 require_relative 'taza/generators/page_generator'
 require_relative 'taza/generators/partial_generator'
 require_relative 'taza/generators/flow_generator'
+require_relative 'taza/generators/adapter_generator'
 
 module ForwardInitialization
   module ClassMethods

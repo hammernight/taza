@@ -8,6 +8,11 @@ TAZA_ROOT=File.join(File.dirname(__FILE__), '../')
 lib_path = File.expand_path("#{File.dirname(__FILE__)}/../lib/sites")
 $LOAD_PATH.unshift lib_path unless $LOAD_PATH.include?(lib_path)
 
+# Load Playwright adapter if selected
+<% if driver.gsub('-', '_') == 'playwright' %>
+require 'taza/drivers/playwright'
+<% end %>
+
 Dir[File.join(TAZA_ROOT, "spec/support/**/*.rb")].each {|f| require f }
 
 RSpec.configure do |config|

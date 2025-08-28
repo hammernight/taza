@@ -15,8 +15,26 @@ module Taza
 
       def define_spec_task(name,glob_path)
         RSpec::Core::RakeTask.new name do |t|
-          t.pattern = Dir.glob(glob_path)
-          t.rspec_opts = spec_opts
+          # Build base list from glob
+          files = Dir.glob(glob_path)
+
+          # Optional: restrict to a specific site (by folder name under spec/*/<site>)
+          if ENV['SITE'] && !ENV['SITE'].strip.empty?
+            site = ENV['SITE'].strip
+            site_globs = [
+              File.join('spec', '**', site, '**', '*_spec.rb')
+            ]
+            site_files = site_globs.flat_map { |g| Dir.glob(g) }
+            files = files & site_files unless site_files.empty?
+          end
+
+          t.pattern = files
+
+          # Pass through explicit rspec options and tag filtering
+          opts = []
+          opts << spec_opts if spec_opts
+          opts << "--tag #{ENV['TAGS']}" if ENV['TAGS'] && !ENV['TAGS'].strip.empty?
+          t.rspec_opts = opts.join(' ').strip
         end
       end
 

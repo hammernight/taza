@@ -29,13 +29,23 @@ module Taza
     # Watir Example:
     #   class HomePage < Taza::Page
     #     element(:foo) {browser.element_by_xpath('some xpath')}
+    #     # or using the unified element API
+    #     element(:bar, css: '#bar')
     #   end
     # homepage.foo.click
-    def self.element(name,&block)
+    def self.element(name, locator=nil, &block)
       if name.nil?
         raise ElementError, "Element name can not be nil"
       end
 
+      # Support locator-based declaration: element(:name, css: '#id')
+      if locator.is_a?(Hash) && block.nil?
+        block = proc { Taza::Elements.find(browser, locator) }
+      elsif locator && !locator.is_a?(Hash)
+        raise ElementError, 'Second argument must be a locator hash when provided'
+      end
+
+      # Existing storage logic with page_module support
       if !@module.nil?
         self.elements[@module] = Hash.new if self.elements[@module].nil?
         self.elements[@module] = self.elements[@module].merge({ name => block })
