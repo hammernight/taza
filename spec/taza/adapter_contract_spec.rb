@@ -25,6 +25,21 @@ describe 'Built-in providers adapter contract' do
   end
 
   describe 'selenium_webdriver provider' do
+    before do
+      @old_ci = ENV['CI']
+      @old_up = ENV['TAZA_SELENIUM_UNIQUE_PROFILE']
+      @old_force = ENV['TAZA_SELENIUM_FORCE_UNIQUE_PROFILE']
+      ENV['CI'] = '0'
+      ENV['TAZA_SELENIUM_UNIQUE_PROFILE'] = '0'
+      ENV['TAZA_SELENIUM_FORCE_UNIQUE_PROFILE'] = '0'
+    end
+
+    after do
+      ENV['CI'] = @old_ci
+      ENV['TAZA_SELENIUM_UNIQUE_PROFILE'] = @old_up
+      ENV['TAZA_SELENIUM_FORCE_UNIQUE_PROFILE'] = @old_force
+    end
+
     it 'wraps Selenium::WebDriver and delegates navigate.to/quit' do
       Kernel.stubs(:require).with('selenium-webdriver').returns(true)
 

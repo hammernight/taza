@@ -38,6 +38,10 @@ describe Taza::Browser do
   end
 
   it 'should use params browser type when creating a selenium webdriver instance' do
+    # Prevent CI-mode unique profile injection so we can assert the simple call signature
+    old_ci = ENV['CI']; old_up = ENV['TAZA_SELENIUM_UNIQUE_PROFILE']; old_force = ENV['TAZA_SELENIUM_FORCE_UNIQUE_PROFILE']
+    ENV['CI'] = '0'; ENV['TAZA_SELENIUM_UNIQUE_PROFILE'] = '0'; ENV['TAZA_SELENIUM_FORCE_UNIQUE_PROFILE'] = '0'
+
     Kernel.stubs(:require).with('selenium-webdriver').returns(true)
     ::Object.const_set(:Selenium, Module.new) unless defined?(::Selenium)
     ::Selenium.const_set(:WebDriver, Module.new) unless ::Selenium.const_defined?(:WebDriver)
@@ -48,6 +52,7 @@ describe Taza::Browser do
       Selenium.send(:remove_const, :WebDriver) if Selenium.const_defined?(:WebDriver)
       Object.send(:remove_const, :Selenium)
     end
+    ENV['CI'] = old_ci; ENV['TAZA_SELENIUM_UNIQUE_PROFILE'] = old_up; ENV['TAZA_SELENIUM_FORCE_UNIQUE_PROFILE'] = old_force
   end
 
   it "should be able to create a selenium instance" do
