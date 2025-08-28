@@ -213,7 +213,7 @@ module Taza
       def install_builtin_providers!
         # Built-in provider: Watir -> Session
         register(:watir) do |params|
-          require 'watir'
+          require 'watir' unless defined?(::Watir::Browser)
           raw = ::Watir::Browser.new(params[:browser])
           Session.new(raw,
             goto_proc: ->(url) { raw.goto(url) },
@@ -223,7 +223,7 @@ module Taza
 
         # Built-in provider: Selenium WebDriver -> Session
         register(:selenium_webdriver) do |params|
-          require 'selenium-webdriver'
+          require 'selenium-webdriver' unless defined?(::Selenium::WebDriver)
           browser_sym = params[:browser].to_sym
           options = params[:options]
 
@@ -312,7 +312,7 @@ module Taza
     end
 
     def self.create_selenium_webdriver(params)
-      require 'selenium-webdriver'
+      require 'selenium-webdriver' unless defined?(::Selenium::WebDriver)
       browser_sym = params[:browser].to_sym
       if params[:options]
         Selenium::WebDriver.for(browser_sym, options: params[:options])

@@ -3,9 +3,7 @@ require 'spec_helper'
 describe 'Built-in providers adapter contract' do
   describe 'watir provider' do
     it 'wraps Watir::Browser and delegates goto/close' do
-      # Avoid loading the real gem
-      Kernel.stubs(:require).with('watir').returns(true)
-
+      # Avoid loading the real gem by defining the expected constants
       raw = mock('watir-browser')
       ::Object.const_set(:Watir, Module.new) unless defined?(::Watir)
       ::Watir.const_set(:Browser, Class.new) unless ::Watir.const_defined?(:Browser)
@@ -41,8 +39,6 @@ describe 'Built-in providers adapter contract' do
     end
 
     it 'wraps Selenium::WebDriver and delegates navigate.to/quit' do
-      Kernel.stubs(:require).with('selenium-webdriver').returns(true)
-
       raw = mock('selenium-driver')
       nav = mock('navigation')
 
@@ -68,8 +64,6 @@ describe 'Built-in providers adapter contract' do
     end
 
     it 'forwards options to Selenium::WebDriver.for when provided' do
-      Kernel.stubs(:require).with('selenium-webdriver').returns(true)
-
       raw = mock('selenium-driver')
       ::Object.const_set(:Selenium, Module.new) unless defined?(::Selenium)
       ::Selenium.const_set(:WebDriver, Module.new) unless ::Selenium.const_defined?(:WebDriver)

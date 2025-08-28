@@ -75,8 +75,13 @@ Built-in providers
   - Browser.create(driver: :watir, browser: :firefox)
   - Session.goto -> Watir::Browser#goto, close -> #close
 - selenium_webdriver (requires gem 'selenium-webdriver')
-  - Browser.create(driver: :selenium_webdriver, browser: :chrome)
+  - Browser.create(driver: :selenium_webdriver, browser: :chrome, options: chrome_options)
+  - Pass native Selenium options via :options (e.g., Selenium::WebDriver::Chrome::Options)
   - Session.goto -> driver.navigate.to, close -> driver.quit
+  - To avoid Chrome profile contention in CI/parallel runs:
+    - Set TAZA_SELENIUM_UNIQUE_PROFILE=1 (or ensure CI is truthy). Taza will inject a unique --user-data-dir for Chrome/Chromium/Edge when one isn’t present and clean it up on close.
+    - Set TAZA_SELENIUM_FORCE_UNIQUE_PROFILE=1 to always append a unique --user-data-dir even if one is already present in your options.
+    - You can still pass your own options; Taza augments them only when the user-data-dir arg is missing (or when FORCE is set).
 - playwright (requires gem 'playwright-ruby-client')
   - require 'taza/drivers/playwright' to enable (or turn on plugin discovery)
   - Browser.create(driver: :playwright, browser: :chromium|:firefox|:webkit)
@@ -181,3 +186,16 @@ home.submit_button.click
 ```ruby
 element(:avatar) { browser.img(id: 'avatar') }
 ```
+
+Examples
+
+Selenium (Chrome) with a unique temp profile (local):
+
+```ruby
+require 'selenium-webdriver'
+opts = Selenium::WebDriver::Chrome::Options.new
+opts.add_argument("--user-data-dir=#{Dir.mktmpdir('taza-chrome-profile-')}")
+session = Taza::Browser.create(driver: :selenium_webdriver, browser: :chrome, options: opts)
+```
+
+In CI, set TAZA_SELENIUM_UNIQUE_PROFILE=1 to have Taza inject a unique profile automatically.
