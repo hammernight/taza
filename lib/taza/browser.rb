@@ -60,6 +60,7 @@ module Taza
 
       def reset_registry!
         @registry = {}
+        install_builtin_providers!
       end
 
       def registry
@@ -206,35 +207,97 @@ module Taza
         # Default to NavigationError for operations in Session
         Taza::Errors::NavigationError
       end
-    end
 
-    private
+      private
 
-    # Built-in provider: Watir -> Session
-    register(:watir) do |params|
-      require 'watir'
-      raw = ::Watir::Browser.new(params[:browser])
-      Session.new(raw,
-        goto_proc: ->(url) { raw.goto(url) },
-        close_proc: -> { raw.close }
-      )
-    end
+      def install_builtin_providers!
+        # Built-in provider: Watir -> Session
+        register(:watir) do |params|
+          require 'watir'
+          raw = ::Watir::Browser.new(params[:browser])
+          Session.new(raw,
+            goto_proc: ->(url) { raw.goto(url) },
+            close_proc: -> { raw.close }
+          )
+        end
 
-    # Built-in provider: Selenium WebDriver -> Session
-    register(:selenium_webdriver) do |params|
-      require 'selenium-webdriver'
-      browser_sym = params[:browser].to_sym
-      options = params[:options]
-      raw = if options
-        ::Selenium::WebDriver.for(browser_sym, options: options)
-      else
-        ::Selenium::WebDriver.for(browser_sym)
+        # Built-in provider: Selenium WebDriver -> Session
+        register(:selenium_webdriver) do |params|
+          require 'selenium-webdriver'
+          browser_sym = params[:browser].to_sym
+          options = params[:options]
+
+          created_profile_dir = nil
+          env_truthy = ->(name) do
+            v = ENV[name]
+            next false if v.nil?
+            %w[1 true yes y].include?(v.to_s.strip.downcase)
+          end
+          ensure_unique_profile = (env_truthy.call('TAZA_SELENIUM_UNIQUE_PROFILE') || env_truthy.call('CI'))
+          force_unique_profile = env_truthy.call('TAZA_SELENIUM_FORCE_UNIQUE_PROFILE')
+
+          if (ensure_unique_profile || force_unique_profile) && [:chrome, :chromium, :edge].include?(browser_sym)
+            require 'tmpdir'
+            require 'fileutils'
+            begin
+              if options.nil?
+                created_profile_dir = Dir.mktmpdir('taza-selenium-profile-')
+                opts_class = (browser_sym == :edge ? ::Selenium::WebDriver::Edge::Options : ::Selenium::WebDriver::Chrome::Options)
+                options = opts_class.new
+                options.add_argument("--user-data-dir=#{created_profile_dir}")
+                if env_truthy.call('CI')
+                  options.add_argument('--headless=new')
+                  options.add_argument('--disable-gpu')
+                  options.add_argument('--no-sandbox')
+                  options.add_argument('--disable-dev-shm-usage')
+                end
+                options.add_argument('--no-first-run')
+                options.add_argument('--no-default-browser-check')
+              else
+                args = []
+                begin
+                  args = options.respond_to?(:args) ? Array(options.args) : []
+                rescue StandardError
+                  args = []
+                end
+                has_ud = args.any? { |a| a.to_s.include?('--user-data-dir=') }
+                if force_unique_profile || !has_ud
+                  created_profile_dir = Dir.mktmpdir('taza-selenium-profile-')
+                  options.add_argument("--user-data-dir=#{created_profile_dir}") if options.respond_to?(:add_argument)
+                end
+              end
+            rescue StandardError
+              created_profile_dir = nil
+            end
+          end
+
+          raw = if options
+            ::Selenium::WebDriver.for(browser_sym, options: options)
+          else
+            ::Selenium::WebDriver.for(browser_sym)
+          end
+
+          close_proc = proc do
+            raw.quit
+            if created_profile_dir && Dir.exist?(created_profile_dir)
+              begin
+                FileUtils.remove_entry_secure(created_profile_dir)
+              rescue StandardError
+                # ignore cleanup errors
+              end
+            end
+          end
+
+          Session.new(raw,
+            goto_proc: ->(url) { raw.navigate.to(url) },
+            close_proc: close_proc
+          )
+        end
       end
-      Session.new(raw,
-        goto_proc: ->(url) { raw.navigate.to(url) },
-        close_proc: -> { raw.quit }
-      )
     end
+
+    # Initialize built-ins at load time
+    install_builtin_providers!
 
     # Legacy creators kept for backward compatibility with existing tests and configs.
     def self.create_watir(params)
@@ -250,7 +313,12 @@ module Taza
 
     def self.create_selenium_webdriver(params)
       require 'selenium-webdriver'
-      Selenium::WebDriver.for params[:browser].to_sym
+      browser_sym = params[:browser].to_sym
+      if params[:options]
+        Selenium::WebDriver.for(browser_sym, options: params[:options])
+      else
+        Selenium::WebDriver.for browser_sym
+      end
     end
   end
 end
